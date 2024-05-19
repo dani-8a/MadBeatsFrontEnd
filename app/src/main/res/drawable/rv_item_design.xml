@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Contorno -->
+    <item android:drawable="@drawable/rv_item_border" />
+    <!-- Fondo degradado -->
+    <item android:drawable="@drawable/rv_item_background" />
+</layer-list>

@@ -1,0 +1,41 @@
+<resources xmlns:tools="http://schemas.android.com/tools" xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Base application theme. -->
+    <style name="Base.Theme.MadBeatsFrontend" parent="Theme.Material3.DayNight.NoActionBar">
+        <!-- Customize your primary brand color -->
+        <item name="colorPrimary">@color/blue_dark</item>
+        <item name="colorPrimaryVariant">@color/blue_dark</item>
+        <item name="colorOnPrimary">@color/green_bright</item>
+        <item name="colorAccent">@color/green_normal</item>
+        <!-- Customize your secondary brand color, same as primary in that case, etc. -->
+    </style>
+
+    <style name="FragmentBackground.MadBeats">
+        <item name="android:background">@drawable/background_degraded</item>
+    </style>
+    <style name="FragmentBackground">FragmentBackground</style>
+
+    <style name="Theme.MadBeatsFrontend" parent="Base.Theme.MadBeatsFrontend" />
+
+    <style name="BottomNavigation">
+        <item name="android:background">@color/blue_dark</item>
+        <item name="itemIconTint">@color/green_bright</item>
+        <item name="itemTextColor">@color/blue_light</item>
+    </style>
+
+    <style name="Button.MadBeats" parent="Widget.MaterialComponents.Button">
+        <!-- Anulamos las propiedades de Material Components para evitar interferencias -->
+        <item name="backgroundTint">@null</item>
+        <item name="iconTint">@null</item>
+        <item name="rippleColor">@null</item>
+        <!-- Aplicamos nuestro fondo personalizado y color de texto -->
+        <item name="android:background">@drawable/button_degraded</item>
+        <item name="android:textColor">@color/green_bright</item>
+    </style>
+
+    <style name="RecyclerViewItemStyle">
+        <item name="android:background">@drawable/rv_item_design</item>
+    </style>
+
+
+
+</resources>

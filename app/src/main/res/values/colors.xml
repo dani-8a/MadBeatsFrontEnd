@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+
+    <color name="green_dark">#062925</color>
+    <color name="green_normal">#044a42</color>
+    <color name="green_light">#3a9188</color>
+    <color name="green_light2">#b8e1dd</color>
+    <color name="green_bright">#87F804</color>
+
+    <color name="blue_dark">#182570</color>
+    <color name="blue_normal">#3F51B5</color>
+    <color name="blue_light">#03A9F4</color>
+    <color name="blue_light2">#9FACF4</color>
+
+    <color name="black_button">#FF000000</color>
+    <color name="blue_button">#283DB5</color>
+
+    <color name="checked_icon_color">#182570</color>
+    <color name="unchecked_icon_color">#3a9188</color>
+
+
+
+</resources>

@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="430dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_marginTop="95dp"
+    style="@style/FragmentBackground.MadBeats"
+    tools:context=".fragment.MusicCategoriesFragment">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <Button
+            android:id="@+id/buttonElectronic"
+            style="@style/Button.MadBeats"
+            android:layout_width="140dp"
+            android:layout_height="120dp"
+            android:layout_marginTop="20dp"
+            android:text="Electronic"
+            app:layout_constraintDimensionRatio="1:1"
+            app:layout_constraintEnd_toStartOf="@id/buttonLatin"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
+
+        <Button
+            android:id="@+id/buttonLatin"
+            style="@style/Button.MadBeats"
+            android:layout_width="140dp"
+            android:layout_height="120dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="10dp"
+            android:text="LATIN"
+            app:layout_constraintDimensionRatio="1:1"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/buttonElectronic"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <Button
+            android:id="@+id/buttonUrban"
+            style="@style/Button.MadBeats"
+            android:layout_width="140dp"
+            android:layout_height="120dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:text="URBAN"
+            app:layout_constraintDimensionRatio="1:1"
+            app:layout_constraintEnd_toStartOf="@id/buttonMainstream"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/buttonElectronic" />
+
+        <Button
+            android:id="@+id/buttonMainstream"
+            style="@style/Button.MadBeats"
+            android:layout_width="140dp"
+            android:layout_height="120dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:text="MAINSTREAM"
+            app:layout_constraintDimensionRatio="1:1"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/buttonUrban"
+            app:layout_constraintTop_toBottomOf="@id/buttonLatin" />
+
+        <Button
+            android:id="@+id/buttonPopRock"
+            style="@style/Button.MadBeats"
+            android:layout_width="140dp"
+            android:layout_height="120dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:text="POP-ROCK"
+            app:layout_constraintDimensionRatio="1:1"
+            app:layout_constraintEnd_toStartOf="@id/buttonOthers"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/buttonUrban" />
+
+        <Button
+            android:id="@+id/buttonOthers"
+            style="@style/Button.MadBeats"
+            android:layout_width="140dp"
+            android:layout_height="120dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:text="OTHERS"
+            app:layout_constraintDimensionRatio="1:1"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/buttonPopRock"
+            app:layout_constraintTop_toBottomOf="@id/buttonMainstream" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</FrameLayout>

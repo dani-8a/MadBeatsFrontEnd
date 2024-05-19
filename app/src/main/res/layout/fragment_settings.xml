@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    style="@style/FragmentBackground.MadBeats"
+    android:paddingBottom="?attr/actionBarSize"
+    tools:context=".fragment.SettingsFragment">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/txtUserSettings"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:fontFamily="sans-serif-black"
+            android:gravity="center_horizontal"
+            android:layout_marginTop="20dp"
+            android:text="USER SETTINGS"
+            android:textColor="@color/blue_dark"
+            android:textSize="25sp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/textView"
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginBottom="10dp"
+                android:textAllCaps="true"
+                android:textStyle="bold"
+                android:textColor="@color/blue_dark"
+                android:text="E-mail:" />
+
+            <EditText
+                android:id="@+id/editMail"
+                android:layout_width="wrap_content"
+                android:layout_height="50dp"
+                android:layout_marginLeft="45dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginBottom="10dp"
+                android:outlineAmbientShadowColor="@color/blue_light"
+                android:layout_weight="1" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/textPassword"
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginBottom="10dp"
+                android:textAllCaps="true"
+                android:textStyle="bold"
+                android:textColor="@color/blue_dark"
+                android:text="Password:" />
+
+            <EditText
+                android:id="@+id/editPassword"
+                android:layout_width="wrap_content"
+                android:layout_height="50dp"
+                android:layout_marginLeft="22dp"
+                android:layout_marginBottom="10dp"
+                android:layout_marginRight="20dp"
+                android:outlineAmbientShadowColor="@color/blue_light"
+                android:layout_weight="1" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="370dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/buttonLogin"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="5dp"
+                android:layout_weight="1"
+                style="@style/Button.MadBeats"
+                android:text="Login" />
+
+            <Button
+                android:id="@+id/buttonSignIn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:layout_weight="1"
+                style="@style/Button.MadBeats"
+                android:text="Sign In" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/txtResetFavourites"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginRight="20dp"
+            android:ems="10"
+            android:gravity="start|top"
+            android:inputType="textMultiLine"
+            android:text="Reset your events/spots favourites:"
+            android:textAlignment="center"
+            android:textAllCaps="true"
+            android:textColor="@color/blue_light2"
+            android:textSize="15dp"
+            android:textStyle="bold"
+            tools:ignore="RtlCompat" />
+
+        <Button
+            android:id="@+id/buttonClearFav"
+            android:layout_width="370dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:layout_gravity="center_horizontal"
+            style="@style/Button.MadBeats"
+            android:text="CLEAR FAVOURITES" />
+
+        <TextView
+            android:id="@+id/txtFeedback"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:fontFamily="sans-serif-black"
+            android:gravity="center_horizontal"
+            android:layout_marginTop="20dp"
+            android:text="FEEDBACK"
+            android:textColor="@color/blue_dark"
+            android:textSize="25sp" />
+
+        <TextView
+            android:id="@+id/txtParagraph"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:ems="10"
+            android:gravity="start|top"
+            android:inputType="textMultiLine"
+            android:text="Do you want to report any issue? new ideas or suggestions to bring to MadBeats? Let us know by sending a message:"
+            android:textAlignment="center"
+            android:textAllCaps="true"
+            android:textColor="@color/blue_light2"
+            android:textSize="15dp"
+            android:textStyle="bold"
+            tools:ignore="RtlCompat" />
+
+        <Button
+            android:id="@+id/buttonMessage"
+            android:layout_width="370dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:layout_gravity="center_horizontal"
+            style="@style/Button.MadBeats"
+            android:text="CONTACT US" />
+
+        <TextView
+            android:id="@+id/txtPromoterSettings"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:fontFamily="sans-serif-black"
+            android:gravity="center_horizontal"
+            android:layout_marginTop="15dp"
+            android:text="PROMOTER SETTINGS"
+            android:textColor="@color/blue_light"
+            android:textSize="25sp" />
+
+        <Button
+            android:id="@+id/buttonEventManager"
+            android:layout_width="370dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            android:layout_gravity="center_horizontal"
+            style="@style/Button.MadBeats"
+            android:text="EVENT MANAGER" />
+
+    </LinearLayout>
+
+</ScrollView>

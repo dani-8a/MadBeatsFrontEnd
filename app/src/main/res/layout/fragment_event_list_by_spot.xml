@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    style="@style/FragmentBackground.MadBeats"
+    tools:context=".fragment.EventListBySpotFragment">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/button_back"
+                android:layout_width="70dp"
+                android:layout_height="50dp"
+                android:backgroundTint="@color/green_light"
+                android:drawableLeft="@android:drawable/ic_menu_revert"
+                android:drawableTint="@color/blue_dark" />
+
+            <ToggleButton
+                android:id="@+id/button_fav"
+                android:layout_width="100dp"
+                android:layout_height="50dp"
+                android:backgroundTint="@color/green_light"
+                android:drawableRight="@drawable/toggle_fav_button"
+                android:layout_marginLeft="230dp"
+                android:drawableTint="@color/blue_dark" />
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/txt_spot_info"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:background="@color/blue_dark"
+            android:text="SPOT INFO"
+            android:textAlignment="center"
+            android:textColor="@color/green_bright"
+            android:textSize="20dp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/txtSpotName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="20dp"
+            android:textColor="@color/blue_light2"
+            android:textSize="30dp"
+            android:gravity="center"/>
+
+        <TextView
+            android:id="@+id/txtSpotAddress"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="20dp"
+            android:textColor="@color/blue_light2"
+            android:textSize="20dp"
+            android:gravity="center"/>
+
+        <TextView
+            android:id="@+id/txt_spot_eventList"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:background="@color/blue_dark"
+            android:text="EVENTS"
+            android:textAlignment="center"
+            android:textColor="@color/green_bright"
+            android:textSize="20dp"
+            android:textStyle="bold" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/eventListRV"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scrollbars="vertical" />
+
+    </LinearLayout>
+
+</FrameLayout>
