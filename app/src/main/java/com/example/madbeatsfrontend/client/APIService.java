@@ -5,10 +5,15 @@ import com.example.madbeatsfrontend.entity.Spot;
 import com.example.madbeatsfrontend.entity.SpotWithEventResponse;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import retrofit2.Call;
+import retrofit2.http.Body;
+import retrofit2.http.FieldMap;
+import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
+import retrofit2.http.POST;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
 
@@ -31,5 +36,9 @@ public interface APIService {
 
     @GET("/api/spots/spotsByEventDate/{day}/{month}/{year}")
     Call<List<Spot>> getSpotsByEventDate(@Path("day") int day, @Path("month") int month, @Path("year") int year);
+
+    @FormUrlEncoded
+    @POST("/api/default_user/login")
+    Call<Void> loginUser(@FieldMap Map<String, String> fields);
 
 }

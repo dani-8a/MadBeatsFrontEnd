@@ -1,16 +1,14 @@
 package com.example.madbeatsfrontend.client;
-import com.example.madbeatsfrontend.client.APIService;
-import com.example.madbeatsfrontend.client.ClientManager;
+import com.example.madbeatsfrontend.entity.DefaultUser;
 import com.example.madbeatsfrontend.entity.Event;
 import com.example.madbeatsfrontend.entity.Spot;
 import com.example.madbeatsfrontend.entity.SpotWithEventResponse;
 
+import java.util.HashMap;
 import java.util.List;
-import java.util.Set;
+import java.util.Map;
 
-import retrofit2.Call;
 import retrofit2.Callback;
-import retrofit2.Response;
 
 public class APIRepository {
     private APIService apiService = ClientManager.getApiService();
@@ -38,5 +36,11 @@ public class APIRepository {
     public void getSpotsByEventDate(int day, int month, int year, Callback<List<Spot>> callback) {
         apiService.getSpotsByEventDate(day, month, year).enqueue(callback);
     }
+
+    public void loginUser(Map<String, String> fields, Callback<Void> callback) {
+        apiService.loginUser(fields).enqueue(callback);
+    }
+
+
 
 }
