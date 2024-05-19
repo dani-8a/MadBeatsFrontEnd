@@ -169,7 +169,7 @@ public class SearchFragment extends Fragment implements OnMapReadyCallback, Goog
             // Si se ha seleccionado una fecha, llama al método para cargar los spots filtrados por fecha
             updateMapWithFilteredSpotsByDate(selectedDay, selectedMonth, selectedYear);
         } else {
-            Log.d("OnResume", "Todos los spots cargados en el mapa");
+            Log.d("OnResume", "Todos los spots cargados en el maps");
             // Si no se ha aplicado ningún filtro, carga todos los spots
             eventsSpotsViewModel.loadSpots();
             eventsSpotsViewModel.getSpotsLiveData().observe(getViewLifecycleOwner(), spots -> {
