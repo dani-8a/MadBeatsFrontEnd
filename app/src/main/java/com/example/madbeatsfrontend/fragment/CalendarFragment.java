@@ -1,5 +1,7 @@
 package com.example.madbeatsfrontend.fragment;
 
+import static java.security.AccessController.getContext;
+
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -61,9 +63,8 @@ public class CalendarFragment extends DialogFragment {
                     int selectedDay = selectedCalendar.get(Calendar.DAY_OF_MONTH);
                     int selectedMonth = selectedCalendar.get(Calendar.MONTH) + 1;
                     int selectedYear = selectedCalendar.get(Calendar.YEAR);
-
                     // Imprimir la fecha seleccionada en el log
-                    Log.d("DatePickerFragment", "Fecha seleccionada: " + selectedDay + "/" + (selectedMonth) + "/" + selectedYear);
+                    Log.d("DatePickerFragment", "Date selected: " + selectedDay + "/" + (selectedMonth) + "/" + selectedYear);
 
                     // Llamar al método del ViewModel para cargar los spots por fecha
                     eventsSpotsViewModel.loadSpotsByEventDate(selectedDay, selectedMonth, selectedYear);
@@ -72,10 +73,11 @@ public class CalendarFragment extends DialogFragment {
                     dismiss();
                 } else {
                     // Mostrar un mensaje de error si no se seleccionó ninguna fecha
-                    Toast.makeText(requireContext(), "Selecciona una fecha válida", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(requireContext(), "No day selected", Toast.LENGTH_SHORT).show();
                 }
             }
         });
+
 
         // Configurar listener para capturar la fecha seleccionada en el CalendarView
         calendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {

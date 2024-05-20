@@ -1,12 +1,12 @@
 package com.example.madbeatsfrontend.client;
+
 import com.google.gson.GsonBuilder;
 
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class ClientManager {
-//https://madbeats-backend-93a77b2b6978.herokuapp.com
-    private static final String BASE_URL = "https://madbeats-backend-93a77b2b6978.herokuapp.com"; // CASA (Madrid): 192.168.1.116 // iPhone: 172.24.64.1 // CASA (zgz): 172.30.96.1
+    private static final String BASE_URL = "http://192.168.1.116:8080";
     private static Retrofit retrofit;
 
     public static Retrofit getRetrofitInstance() {

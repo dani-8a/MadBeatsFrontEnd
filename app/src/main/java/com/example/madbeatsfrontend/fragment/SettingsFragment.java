@@ -1,12 +1,16 @@
 package com.example.madbeatsfrontend.fragment;
 
 import android.app.AlertDialog;
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -17,10 +21,13 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.example.madbeatsfrontend.R;
 import com.example.madbeatsfrontend.viewModel.LoginViewModel;
+import com.example.madbeatsfrontend.entity.DefaultUser;
 
 public class SettingsFragment extends Fragment {
-    Button buttonLogin, buttonSignIn, buttonClearFav, buttonMessage, buttonEventManager;
-    EditText editMail, editPassword;
+    private Button buttonLogin, buttonLogOut, buttonClearFav, buttonMessage, buttonEventManager, buttonRegister;
+    private EditText editMail, editPassword;
+    private LoginViewModel viewModel;
+    private TextView txtUserState;
 
     public SettingsFragment() {
     }
@@ -35,27 +42,44 @@ public class SettingsFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         buttonLogin = view.findViewById(R.id.buttonLogin);
-        buttonSignIn = view.findViewById(R.id.buttonSignIn);
+        buttonLogOut = view.findViewById(R.id.buttonLogOut);
         buttonClearFav = view.findViewById(R.id.buttonClearFav);
         buttonMessage = view.findViewById(R.id.buttonMessage);
         buttonEventManager = view.findViewById(R.id.buttonEventManager);
         editMail = view.findViewById(R.id.editMail);
         editPassword = view.findViewById(R.id.editPassword);
+        txtUserState = view.findViewById(R.id.txtUserState);
 
         // Inicializa el ViewModel
-        LoginViewModel viewModel = new ViewModelProvider(this).get(LoginViewModel.class);
+        viewModel = new ViewModelProvider(this).get(LoginViewModel.class);
 
+        // Observa los cambios en el estado de éxito del login
         viewModel.getLoginSuccess().observe(getViewLifecycleOwner(), new Observer<Boolean>() {
             @Override
             public void onChanged(Boolean success) {
                 if (success != null && success) {
-                    Toast.makeText(getContext(), "Inicio de sesión exitoso", Toast.LENGTH_SHORT).show();
-                } else {
-                    Toast.makeText(getContext(), "Fallo en el inicio de sesión", Toast.LENGTH_SHORT).show();
+                    String email = editMail.getText().toString();
+                    String password = editPassword.getText().toString();
+                    txtUserState.setText(email + ": You are logged in");
+                    txtUserState.setTextColor(Color.GREEN);
+                    editMail.setText(email);
+                    editPassword.setText(password);
+                    Toast.makeText(getContext(), "Login successful", Toast.LENGTH_SHORT).show();
                 }
             }
         });
+        // Verificar si hay datos de usuario guardados en SharedPreferences
+        SharedPreferences sharedPreferences = requireContext().getSharedPreferences("UserData", Context.MODE_PRIVATE);
+        String userId = sharedPreferences.getString("idUser", null);
+        String userEmail = sharedPreferences.getString("email", null);
+        String userPassword = sharedPreferences.getString("password", null);
+        if (userId != null && userEmail != null && userPassword != null) {
+            // Actualizar el estado de inicio de sesión si hay datos de usuario guardados
+            txtUserState.setText(userEmail + ": You are logged in");
+            txtUserState.setTextColor(Color.GREEN);
+        }
 
+        // Observa los cambios en el mensaje de error
         viewModel.getErrorMessage().observe(getViewLifecycleOwner(), new Observer<String>() {
             @Override
             public void onChanged(String errorMsg) {
@@ -72,6 +96,13 @@ public class SettingsFragment extends Fragment {
             viewModel.loginUser(email, password);
         });
 
+        buttonLogOut.setOnClickListener((v -> {
+            viewModel.logoutUser();
+            txtUserState.setText("You are not logged in");
+            txtUserState.setTextColor(Color.RED);
+            Toast.makeText(getContext(), "You logged out", Toast.LENGTH_SHORT).show();
+        }));
+
         buttonEventManager.setOnClickListener(v -> showDialog());
     }
 
@@ -86,4 +117,6 @@ public class SettingsFragment extends Fragment {
         Button buttonClose = dialogView.findViewById(R.id.buttonClose);
         buttonClose.setOnClickListener(v -> dialog.dismiss());
     }
+
+
 }

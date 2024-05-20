@@ -26,13 +26,13 @@
         <TextView
             android:id="@+id/txtUserState"
             android:layout_width="match_parent"
-            android:layout_height="50dp"
+            android:layout_height="40dp"
             android:fontFamily="sans-serif-black"
-            android:gravity="center_horizontal"
+            android:gravity="center"
             android:layout_marginTop="20dp"
-            android:text="You are not logged in!!"
+            android:text="You are not logged in"
             android:textColor="#C80303"
-            android:textSize="18dp" />
+            android:textSize="20dp" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -57,6 +57,7 @@
                 android:layout_marginLeft="45dp"
                 android:layout_marginRight="20dp"
                 android:layout_marginBottom="10dp"
+                android:text="user01@email.com"
                 android:outlineAmbientShadowColor="@color/blue_light"
                 android:layout_weight="1" />
 
@@ -85,6 +86,7 @@
                 android:layout_marginLeft="22dp"
                 android:layout_marginBottom="10dp"
                 android:layout_marginRight="20dp"
+                android:text="user01"
                 android:outlineAmbientShadowColor="@color/blue_light"
                 android:layout_weight="1" />
         </LinearLayout>
@@ -95,6 +97,7 @@
             android:layout_marginTop="20dp"
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
+            android:layout_gravity="center_horizontal"
             android:orientation="horizontal">
 
             <Button
@@ -107,14 +110,25 @@
                 android:text="Login" />
 
             <Button
-                android:id="@+id/buttonSignIn"
+                android:id="@+id/buttonLogOut"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="5dp"
                 android:layout_weight="1"
                 style="@style/Button.MadBeats"
-                android:text="Sign In" />
+                android:text="Log Out" />
         </LinearLayout>
+
+        <Button
+            android:id="@+id/buttonRegister"
+            android:layout_width="370dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_gravity="center_horizontal"
+            style="@style/Button.MadBeats"
+            android:text="REGISTER" />
 
         <TextView
             android:id="@+id/txtResetFavourites"

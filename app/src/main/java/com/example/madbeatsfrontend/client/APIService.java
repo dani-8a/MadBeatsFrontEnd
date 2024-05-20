@@ -1,5 +1,6 @@
 package com.example.madbeatsfrontend.client;
 
+import com.example.madbeatsfrontend.entity.DefaultUser;
 import com.example.madbeatsfrontend.entity.Event;
 import com.example.madbeatsfrontend.entity.Spot;
 import com.example.madbeatsfrontend.entity.SpotWithEventResponse;
@@ -37,8 +38,10 @@ public interface APIService {
     @GET("/api/spots/spotsByEventDate/{day}/{month}/{year}")
     Call<List<Spot>> getSpotsByEventDate(@Path("day") int day, @Path("month") int month, @Path("year") int year);
 
-    @FormUrlEncoded
     @POST("/api/default_user/login")
-    Call<Void> loginUser(@FieldMap Map<String, String> fields);
+    Call<DefaultUser> loginUser(@Body DefaultUser user);
+
+    @GET("/api/default_user/{userId}/favourite_events")
+    Call<List<Event>> getUserFavouriteEvents(@Path("userId")String userId);
 
 }

@@ -7,16 +7,11 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.example.madbeatsfrontend.client.APIRepository;
-import com.example.madbeatsfrontend.client.APIService;
-import com.example.madbeatsfrontend.client.ClientManager;
 import com.example.madbeatsfrontend.entity.Event;
 import com.example.madbeatsfrontend.entity.Spot;
 import com.example.madbeatsfrontend.entity.SpotWithEventResponse;
-import com.example.madbeatsfrontend.fragment.SearchFragment;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 import retrofit2.Call;
 import retrofit2.Callback;

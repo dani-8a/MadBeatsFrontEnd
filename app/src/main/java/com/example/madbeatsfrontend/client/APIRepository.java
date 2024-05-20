@@ -37,10 +37,12 @@ public class APIRepository {
         apiService.getSpotsByEventDate(day, month, year).enqueue(callback);
     }
 
-    public void loginUser(Map<String, String> fields, Callback<Void> callback) {
-        apiService.loginUser(fields).enqueue(callback);
+    public void loginUser(DefaultUser user, Callback<DefaultUser> callback) {
+        apiService.loginUser(user).enqueue(callback);
     }
 
-
+    public void getUserFavouriteEvents(String userId, Callback<List<Event>> callback){
+        apiService.getUserFavouriteEvents(userId).enqueue(callback);
+    }
 
 }

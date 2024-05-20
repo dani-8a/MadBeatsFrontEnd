@@ -16,13 +16,11 @@ import com.google.android.material.tabs.TabLayout;
 public class FavouritesFragment extends Fragment {
 
     public FavouritesFragment() {
-        // Required empty public constructor
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_favourites, container, false);
     }
 
@@ -56,9 +54,9 @@ public class FavouritesFragment extends Fragment {
         public Fragment getItem(int position) {
             switch (position) {
                 case 0:
-                    return new FavouriteSpotsFragment(); // Fragmento para la pestaña "Spots"
+                    return new FavouriteSpotsFragment();
                 case 1:
-                    return new FavouriteEventsFragment(); // Fragmento para la pestaña "Events"
+                    return new FavouriteEventsFragment();
                 default:
                     return null;
             }
@@ -66,7 +64,7 @@ public class FavouritesFragment extends Fragment {
 
         @Override
         public int getCount() {
-            return 2; // Solo dos pestañas
+            return 2; // Solo dos tabs
         }
 
         @Nullable

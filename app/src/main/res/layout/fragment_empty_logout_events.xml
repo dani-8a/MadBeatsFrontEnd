@@ -8,12 +8,13 @@
     tools:context=".fragment.FavouriteEventsFragment">
 
     <TextView
+        android:id="@+id/txtEmptyFavEvents"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="250dp"
-        android:layout_marginBottom="250dp"
         android:layout_marginLeft="15dp"
+        android:layout_marginTop="250dp"
         android:layout_marginRight="15dp"
+        android:layout_marginBottom="250dp"
         android:text="YOU HAVE NO FAVOURITES OR NOT LOGGED IN YET"
         android:textAlignment="center"
         android:textColor="@color/blue_light2"
