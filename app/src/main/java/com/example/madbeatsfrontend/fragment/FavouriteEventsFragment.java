@@ -48,7 +48,7 @@ public class FavouriteEventsFragment extends Fragment {
         SharedPreferences sharedPreferences = requireActivity().getSharedPreferences(SHARED_PREFS_NAME, Context.MODE_PRIVATE);
         boolean isLoggedIn = sharedPreferences.getBoolean("isLoggedIn", false);
 
-        int layoutId = isLoggedIn ? R.layout.fragment_login_events : R.layout.fragment_empty_logout_events;
+        int layoutId = isLoggedIn ? R.layout.fragment_login_events : R.layout.fragment_logout_events;
         return inflater.inflate(layoutId, container, false);
     }
 

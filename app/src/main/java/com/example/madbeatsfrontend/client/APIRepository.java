@@ -4,14 +4,12 @@ import com.example.madbeatsfrontend.entity.Event;
 import com.example.madbeatsfrontend.entity.Spot;
 import com.example.madbeatsfrontend.entity.SpotWithEventResponse;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import retrofit2.Callback;
 
 public class APIRepository {
-    private APIService apiService = ClientManager.getApiService();
+    private APIService apiService = APIConnection.getApiService();
 
     public void getAllEvents(Callback<List<Event>> callback) {
         apiService.getAllEvents().enqueue(callback);
@@ -43,6 +41,10 @@ public class APIRepository {
 
     public void getUserFavouriteEvents(String userId, Callback<List<Event>> callback){
         apiService.getUserFavouriteEvents(userId).enqueue(callback);
+    }
+
+    public void getUserFavouriteSpots(String userId, Callback<List<Spot>> callback){
+        apiService.getUserFavouriteSpots(userId).enqueue(callback);
     }
 
 }

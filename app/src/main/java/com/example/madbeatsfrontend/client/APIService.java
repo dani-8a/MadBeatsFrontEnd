@@ -44,4 +44,7 @@ public interface APIService {
     @GET("/api/default_user/{userId}/favourite_events")
     Call<List<Event>> getUserFavouriteEvents(@Path("userId")String userId);
 
+    @GET("/api/default_user/{userId}/favourite_spots")
+    Call<List<Spot>> getUserFavouriteSpots(@Path("userId")String userId);
+
 }
