@@ -1,5 +1,7 @@
 package com.example.madbeatsfrontend.viewModel;
 
+import android.util.Log;
+
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
@@ -18,11 +20,13 @@ public class FavouritesViewModel extends ViewModel {
     private final APIRepository apiRepository;
     private final MutableLiveData<List<Event>> favouriteEventsLiveData;
     private final MutableLiveData<List<Spot>> favouriteSpotsLiveData;
+    private final MutableLiveData<Boolean> deleteFavouritesStatus;
 
     public FavouritesViewModel() {
         apiRepository = new APIRepository();
         favouriteEventsLiveData = new MutableLiveData<>();
         favouriteSpotsLiveData = new MutableLiveData<>();
+        deleteFavouritesStatus = new MutableLiveData<>();
     }
 
     public LiveData<List<Event>> getFavouriteEvents() {
@@ -31,6 +35,7 @@ public class FavouritesViewModel extends ViewModel {
     public LiveData<List<Spot>> getFavouriteSpots() {
         return favouriteSpotsLiveData;
     }
+    public LiveData<Boolean> deleteUserFavourites() { return deleteFavouritesStatus; }
 
     public void loadUserFavouriteEvents(String userId) {
         apiRepository.getUserFavouriteEvents(userId, new Callback<List<Event>>() {
@@ -67,5 +72,28 @@ public class FavouritesViewModel extends ViewModel {
             }
         });
     }
+
+    public void deleteAllUserFavourites(String userId) {
+        Log.d("FavouritesViewModel", "Deleting user favourites for userId: " + userId);
+        apiRepository.deleteAllUserFavourites(userId, new Callback<Void>() {
+            @Override
+            public void onResponse(Call<Void> call, Response<Void> response) {
+                if (response.isSuccessful()) {
+                    Log.d("FavouritesViewModel", "Successfully deleted user favourites");
+                    deleteFavouritesStatus.setValue(true);
+                } else {
+                    Log.e("FavouritesViewModel", "Failed to delete user favourites. Response code: " + response.code());
+                    deleteFavouritesStatus.setValue(false);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Void> call, Throwable t) {
+                Log.e("FavouritesViewModel", "Failed to delete user favourites. Error: " + t.getMessage());
+                deleteFavouritesStatus.setValue(false);
+            }
+        });
+    }
+
 
 }

@@ -8,7 +8,7 @@
     tools:context=".fragment.FavouriteEventsFragment">
 
     <TextView
-        android:id="@+id/txtEmptyFavEvents"
+        android:id="@+id/txtLogoutFavEvents"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginLeft="15dp"

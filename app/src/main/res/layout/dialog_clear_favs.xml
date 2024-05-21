@@ -14,18 +14,18 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="17dp"
-        android:text="We are currently developing an exclusive app for promoters. Be in touch and see you soon"
+        android:text="You are not logged in"
         android:textAlignment="center"
         android:textColor="@color/green_light2"
         android:textSize="16dp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/buttonClose"
+        app:layout_constraintBottom_toTopOf="@+id/buttonClose2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        android:id="@+id/buttonClose"
+        android:id="@+id/buttonClose2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="81dp"

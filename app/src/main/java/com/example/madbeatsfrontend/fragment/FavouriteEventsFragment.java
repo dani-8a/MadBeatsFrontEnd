@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -25,13 +26,12 @@ import com.example.madbeatsfrontend.viewModel.FavouritesViewModel;
 import java.util.List;
 
 public class FavouriteEventsFragment extends Fragment {
-
     private static final String SHARED_PREFS_NAME = "UserData";
     private static final String KEY_USER_ID = "idUser";
-
     private FavouritesViewModel favouritesViewModel;
     private RecyclerView recyclerView;
     private FavouriteEventsAdapter favouriteEventsAdapter;
+    private TextView txtEmptyFavEvents;
 
     public FavouriteEventsFragment() {
     }
@@ -48,6 +48,7 @@ public class FavouriteEventsFragment extends Fragment {
         SharedPreferences sharedPreferences = requireActivity().getSharedPreferences(SHARED_PREFS_NAME, Context.MODE_PRIVATE);
         boolean isLoggedIn = sharedPreferences.getBoolean("isLoggedIn", false);
 
+        // Carga el layout correspondiente
         int layoutId = isLoggedIn ? R.layout.fragment_login_events : R.layout.fragment_logout_events;
         return inflater.inflate(layoutId, container, false);
     }
@@ -61,6 +62,8 @@ public class FavouriteEventsFragment extends Fragment {
 
         if (userId != null) {
             recyclerView = view.findViewById(R.id.eventFavouritesRV);
+            txtEmptyFavEvents = view.findViewById(R.id.txtEmptyFavEvents);
+
             recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
             favouriteEventsAdapter = new FavouriteEventsAdapter(new FavouriteEventsAdapter.OnItemClickListener() {
                 @Override
@@ -87,6 +90,11 @@ public class FavouriteEventsFragment extends Fragment {
                 public void onChanged(List<Event> events) {
                     if (events != null && !events.isEmpty()) {
                         favouriteEventsAdapter.setEvents(events);
+                        recyclerView.setVisibility(View.VISIBLE);
+                        txtEmptyFavEvents.setVisibility(View.GONE);
+                    } else {
+                        recyclerView.setVisibility(View.GONE);
+                        txtEmptyFavEvents.setVisibility(View.VISIBLE);
                     }
                 }
             });

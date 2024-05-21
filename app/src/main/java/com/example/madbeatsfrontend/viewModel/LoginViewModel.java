@@ -25,21 +25,23 @@ public class LoginViewModel extends AndroidViewModel {
     private final APIRepository apiRepository;
     private MutableLiveData<Boolean> loginSuccess;
     private MutableLiveData<String> errorMessage;
+    private MutableLiveData<Boolean> registerSuccess;
 
     public LoginViewModel(@NonNull Application application) {
         super(application);
         apiRepository = new APIRepository();
         loginSuccess = new MutableLiveData<>();
         errorMessage = new MutableLiveData<>();
+        registerSuccess = new MutableLiveData<>();
     }
 
     public LiveData<Boolean> getLoginSuccess() {
         return loginSuccess;
     }
-
     public LiveData<String> getErrorMessage() {
         return errorMessage;
     }
+    public LiveData<Boolean> getRegisterSuccess() { return registerSuccess; }
 
     public void loginUser(String email, String password) {
         DefaultUser user = new DefaultUser();
@@ -80,6 +82,33 @@ public class LoginViewModel extends AndroidViewModel {
 
             @Override
             public void onFailure(Call<DefaultUser> call, Throwable t) {
+                errorMessage.setValue("Error: " + t.getMessage());
+                Log.e(TAG, "Error: " + t.getMessage());
+            }
+        });
+    }
+
+    public void registerUser(String email, String password) {
+        DefaultUser user = new DefaultUser();
+        user.setEmail(email);
+        user.setPassword(password);
+
+        apiRepository.registerUser(user, new Callback<DefaultUser>() {
+            @Override
+            public void onResponse(Call<DefaultUser> call, Response<DefaultUser> response) {
+                if (response.isSuccessful()) {
+                    registerSuccess.setValue(true);
+                    Log.d(TAG, "User registered successfully");
+                } else {
+                    registerSuccess.setValue(false);
+                    errorMessage.setValue("Registration failed: " + response.message());
+                    Log.e(TAG, "Registration failed: " + response.message());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<DefaultUser> call, Throwable t) {
+                registerSuccess.setValue(false);
                 errorMessage.setValue("Error: " + t.getMessage());
                 Log.e(TAG, "Error: " + t.getMessage());
             }

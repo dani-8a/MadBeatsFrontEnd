@@ -39,12 +39,21 @@ public class APIRepository {
         apiService.loginUser(user).enqueue(callback);
     }
 
+    public void registerUser(DefaultUser user, Callback<DefaultUser> callback) {
+        apiService.registerUser(user).enqueue(callback);
+    }
+
+
     public void getUserFavouriteEvents(String userId, Callback<List<Event>> callback){
         apiService.getUserFavouriteEvents(userId).enqueue(callback);
     }
 
     public void getUserFavouriteSpots(String userId, Callback<List<Spot>> callback){
         apiService.getUserFavouriteSpots(userId).enqueue(callback);
+    }
+
+    public void deleteAllUserFavourites(String userId, Callback<Void> callback) {
+        apiService.deleteAllUserFavourites(userId).enqueue(callback);
     }
 
 }

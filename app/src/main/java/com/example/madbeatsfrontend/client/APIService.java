@@ -11,6 +11,7 @@ import java.util.Set;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
+import retrofit2.http.DELETE;
 import retrofit2.http.FieldMap;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
@@ -41,10 +42,16 @@ public interface APIService {
     @POST("/api/default_user/login")
     Call<DefaultUser> loginUser(@Body DefaultUser user);
 
+    @POST("/api/default_user/register")
+    Call<DefaultUser> registerUser(@Body DefaultUser user);
+
     @GET("/api/default_user/{userId}/favourite_events")
     Call<List<Event>> getUserFavouriteEvents(@Path("userId")String userId);
 
     @GET("/api/default_user/{userId}/favourite_spots")
     Call<List<Spot>> getUserFavouriteSpots(@Path("userId")String userId);
+
+    @DELETE("/api/default_user/{userId}/delete_all_favourites")
+    Call<Void> deleteAllUserFavourites(@Path("userId") String userId);
 
 }

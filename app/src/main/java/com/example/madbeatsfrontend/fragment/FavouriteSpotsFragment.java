@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.example.madbeatsfrontend.R;
 import com.example.madbeatsfrontend.adapter.FavouriteEventsAdapter;
@@ -33,6 +34,7 @@ public class FavouriteSpotsFragment extends Fragment {
     private FavouritesViewModel favouritesViewModel;
     private RecyclerView recyclerView;
     private FavouriteSpotsAdapter favouriteSpotsAdapter;
+    private TextView txtEmptyFavSpots;
 
     public FavouriteSpotsFragment() {
     }
@@ -42,12 +44,14 @@ public class FavouriteSpotsFragment extends Fragment {
         super.onCreate(savedInstanceState);
         favouritesViewModel = new ViewModelProvider(this).get(FavouritesViewModel.class);
     }
+
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         SharedPreferences sharedPreferences = requireActivity().getSharedPreferences(SHARED_PREFS_NAME, Context.MODE_PRIVATE);
         boolean isLoggedIn = sharedPreferences.getBoolean("isLoggedIn", false);
 
+        // Carga el layout correspondiente
         int layoutId = isLoggedIn ? R.layout.fragment_login_spots : R.layout.fragment_logout_spots;
         return inflater.inflate(layoutId, container, false);
     }
@@ -61,6 +65,8 @@ public class FavouriteSpotsFragment extends Fragment {
 
         if (userId != null) {
             recyclerView = view.findViewById(R.id.spotFavouritesRV);
+            txtEmptyFavSpots = view.findViewById(R.id.txtEmptyFavSpots);
+
             recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
             favouriteSpotsAdapter = new FavouriteSpotsAdapter(new FavouriteSpotsAdapter.OnItemClickListener() {
                 @Override
@@ -74,6 +80,11 @@ public class FavouriteSpotsFragment extends Fragment {
                 public void onChanged(List<Spot> spots) {
                     if (spots != null && !spots.isEmpty()) {
                         favouriteSpotsAdapter.setSpots(spots);
+                        recyclerView.setVisibility(View.VISIBLE);
+                        txtEmptyFavSpots.setVisibility(View.GONE);
+                    } else {
+                        recyclerView.setVisibility(View.GONE);
+                        txtEmptyFavSpots.setVisibility(View.VISIBLE);
                     }
                 }
             });
