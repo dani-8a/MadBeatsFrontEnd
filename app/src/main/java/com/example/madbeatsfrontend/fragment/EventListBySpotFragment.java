@@ -1,5 +1,9 @@
 package com.example.madbeatsfrontend.fragment;
 
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -8,11 +12,13 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.ToggleButton;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -23,6 +29,7 @@ import com.example.madbeatsfrontend.adapter.EventListBySpotAdapter;
 import com.example.madbeatsfrontend.entity.Event;
 import com.example.madbeatsfrontend.entity.SpotWithEventResponse;
 import com.example.madbeatsfrontend.viewModel.EventsSpotsViewModel;
+import com.example.madbeatsfrontend.viewModel.FavouritesViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,8 +37,8 @@ import java.util.List;
 public class EventListBySpotFragment extends Fragment {
 
     private EventsSpotsViewModel eventsSpotsViewModel;
-    Button backButton;
-    ToggleButton favButton;
+    private FavouritesViewModel favouritesViewModel;
+    Button backButton, addButton;
     TextView txtSpotName, txtSpotAddress;
     RecyclerView eventListRV;
     EventListBySpotAdapter eventListBySpotAdapter;
@@ -42,6 +49,7 @@ public class EventListBySpotFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         eventsSpotsViewModel = new ViewModelProvider(requireActivity()).get(EventsSpotsViewModel.class);
+        favouritesViewModel = new ViewModelProvider(requireActivity()).get(FavouritesViewModel.class);
     }
 
     @Override
@@ -53,7 +61,7 @@ public class EventListBySpotFragment extends Fragment {
         txtSpotName = view.findViewById(R.id.txtSpotName);
         txtSpotAddress = view.findViewById(R.id.txtSpotAddress);
         backButton = view.findViewById(R.id.button_back);
-        favButton = view.findViewById(R.id.button_fav);
+        addButton = view.findViewById(R.id.button_add);
 
         LinearLayoutManager eventLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
         eventListRV.setLayoutManager(eventLayoutManager);
@@ -99,6 +107,33 @@ public class EventListBySpotFragment extends Fragment {
             }
         }
 
+        addButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Verificar si el usuario está autenticado
+                String userId = getUserIdFromSharedPreferences();
+                if (userId == null) {
+                    // Si el usuario no está autenticado, mostrar el diálogo de inicio de sesión
+                    showLoginAlertDialog();
+                } else {
+                    // Si el usuario está autenticado, llamar al método para agregar el evento a favoritos
+                    Bundle arguments = getArguments();
+                    if (arguments != null) {
+                        String spotId = arguments.getString("spotId");
+                        if (spotId != null) {
+                            // Llamar al método para agregar el evento a favoritos
+                            favouritesViewModel.addSpotToFavourites(userId, spotId);
+                            Toast.makeText(getContext(), "Added to Favourites", Toast.LENGTH_SHORT).show();
+                        } else {
+                            Log.e("EventInfoFragment", "Spot ID is null");
+                        }
+                    } else {
+                        Log.e("EventInfoFragment", "Arguments are null");
+                    }
+                }
+            }
+        });
+
         return view;
     }
 
@@ -122,5 +157,24 @@ public class EventListBySpotFragment extends Fragment {
                 }
             }
         });
+    }
+
+    private String getUserIdFromSharedPreferences() {
+        SharedPreferences sharedPreferences = requireContext().getSharedPreferences("UserData", Context.MODE_PRIVATE);
+        return sharedPreferences.getString("idUser", null);
+    }
+
+    private void showLoginAlertDialog() {
+        new AlertDialog.Builder(requireContext())
+                .setTitle("Login Required")
+                .setMessage("Please, log in to like events & spots")
+                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                })
+                .setIcon(android.R.drawable.ic_dialog_alert)
+                .show();
     }
 }

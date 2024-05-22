@@ -1,4 +1,5 @@
 package com.example.madbeatsfrontend.client;
+
 import com.example.madbeatsfrontend.entity.DefaultUser;
 import com.example.madbeatsfrontend.entity.Event;
 import com.example.madbeatsfrontend.entity.Spot;
@@ -6,6 +7,7 @@ import com.example.madbeatsfrontend.entity.SpotWithEventResponse;
 
 import java.util.List;
 
+import okhttp3.ResponseBody;
 import retrofit2.Callback;
 
 public class APIRepository {
@@ -39,10 +41,9 @@ public class APIRepository {
         apiService.loginUser(user).enqueue(callback);
     }
 
-    public void registerUser(DefaultUser user, Callback<DefaultUser> callback) {
+    public void registerUser(DefaultUser user, Callback<ResponseBody> callback) {
         apiService.registerUser(user).enqueue(callback);
     }
-
 
     public void getUserFavouriteEvents(String userId, Callback<List<Event>> callback){
         apiService.getUserFavouriteEvents(userId).enqueue(callback);
@@ -55,5 +56,34 @@ public class APIRepository {
     public void deleteAllUserFavourites(String userId, Callback<Void> callback) {
         apiService.deleteAllUserFavourites(userId).enqueue(callback);
     }
+
+    public void deleteUser(String userId, Callback<Void> callback) {
+        apiService.deleteUser(userId).enqueue(callback);
+    }
+
+    public void addEventToFavourites(String userId, String eventId, Callback<Void> callback) {
+        apiService.addEventToFavourites(userId, eventId).enqueue(callback);
+    }
+
+    public void removeEventFromFavourites(String userId, String eventId, Callback<Void> callback) {
+        apiService.removeEventFromFavourites(userId, eventId).enqueue(callback);
+    }
+
+    public void addSpotToFavourites(String userId, String spotId, Callback<Void> callback) {
+        apiService.addSpotToFavourites(userId, spotId).enqueue(callback);
+    }
+
+    public void removeSpotFromFavourites(String userId, String spotId, Callback<Void> callback) {
+        apiService.removeSpotFromFavourites(userId, spotId).enqueue(callback);
+    }
+
+    public void isEventInFavorites(String userId, String eventId, Callback<Boolean> callback) {
+        apiService.isEventInFavorites(userId, eventId).enqueue(callback);
+    }
+
+    public void isSpotInFavorites(String userId, String spotId, Callback<Boolean> callback) {
+        apiService.isSpotInFavorites(userId, spotId).enqueue(callback);
+    }
+
 
 }

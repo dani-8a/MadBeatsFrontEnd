@@ -12,27 +12,32 @@ import androidx.lifecycle.MutableLiveData;
 
 import com.example.madbeatsfrontend.client.APIRepository;
 import com.example.madbeatsfrontend.entity.DefaultUser;
+import com.example.madbeatsfrontend.fragment.SettingsFragment;
 
+import java.io.IOException;
 import java.util.List;
 
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class LoginViewModel extends AndroidViewModel {
+public class UserViewModel extends AndroidViewModel {
 
-    private static final String TAG = "LoginViewModel";
+    private static final String TAG = "UserViewModel";
     private final APIRepository apiRepository;
     private MutableLiveData<Boolean> loginSuccess;
     private MutableLiveData<String> errorMessage;
     private MutableLiveData<Boolean> registerSuccess;
+    private MutableLiveData<Boolean> deleteUserStatus;
 
-    public LoginViewModel(@NonNull Application application) {
+    public UserViewModel(@NonNull Application application) {
         super(application);
         apiRepository = new APIRepository();
         loginSuccess = new MutableLiveData<>();
         errorMessage = new MutableLiveData<>();
         registerSuccess = new MutableLiveData<>();
+        deleteUserStatus = new MutableLiveData<>();
     }
 
     public LiveData<Boolean> getLoginSuccess() {
@@ -42,6 +47,7 @@ public class LoginViewModel extends AndroidViewModel {
         return errorMessage;
     }
     public LiveData<Boolean> getRegisterSuccess() { return registerSuccess; }
+    public LiveData<Boolean> getDeleteUserStatus() { return deleteUserStatus; }
 
     public void loginUser(String email, String password) {
         DefaultUser user = new DefaultUser();
@@ -88,28 +94,64 @@ public class LoginViewModel extends AndroidViewModel {
         });
     }
 
+    public void logoutUser() {
+        SharedPreferences sharedPreferences = getApplication().getSharedPreferences("UserData", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.clear();
+        editor.putBoolean("isLoggedIn", false);
+        editor.apply();
+    }
+
     public void registerUser(String email, String password) {
         DefaultUser user = new DefaultUser();
         user.setEmail(email);
         user.setPassword(password);
 
-        apiRepository.registerUser(user, new Callback<DefaultUser>() {
+        apiRepository.registerUser(user, new Callback<ResponseBody>() {
             @Override
-            public void onResponse(Call<DefaultUser> call, Response<DefaultUser> response) {
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 if (response.isSuccessful()) {
                     registerSuccess.setValue(true);
                     Log.d(TAG, "User registered successfully");
                 } else {
                     registerSuccess.setValue(false);
-                    errorMessage.setValue("Registration failed: " + response.message());
-                    Log.e(TAG, "Registration failed: " + response.message());
+                    try {
+                        String errorMsg = response.errorBody().string();
+                        errorMessage.postValue("Registration failed: " + errorMsg);
+                        Log.e(TAG, "Registration failed: " + errorMsg);
+                    } catch (IOException e) {
+                        errorMessage.postValue("Registration failed");
+                        Log.e(TAG, "Registration failed: " + response.message());
+                    }
                 }
             }
 
             @Override
-            public void onFailure(Call<DefaultUser> call, Throwable t) {
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
                 registerSuccess.setValue(false);
                 errorMessage.setValue("Error: " + t.getMessage());
+                Log.e(TAG, "Error: " + t.getMessage());
+            }
+        });
+    }
+
+
+    public void deleteUser(String userId) {
+        apiRepository.deleteUser(userId, new Callback<Void>() {
+            @Override
+            public void onResponse(Call<Void> call, Response<Void> response) {
+                if (response.isSuccessful()) {
+                    deleteUserStatus.setValue(true);
+                    Log.d(TAG, "User deleted successfully");
+                } else {
+                    deleteUserStatus.setValue(false);
+                    Log.e(TAG, "Failed to delete user: " + response.message());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Void> call, Throwable t) {
+                deleteUserStatus.setValue(false);
                 Log.e(TAG, "Error: " + t.getMessage());
             }
         });
@@ -138,13 +180,6 @@ public class LoginViewModel extends AndroidViewModel {
             stringBuilder.append(item.toString()).append(",");
         }
         return stringBuilder.toString();
-    }
-    public void logoutUser() {
-        SharedPreferences sharedPreferences = getApplication().getSharedPreferences("UserData", Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.clear();
-        editor.putBoolean("isLoggedIn", false);
-        editor.apply();
     }
 
 }

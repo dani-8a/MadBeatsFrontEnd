@@ -29,7 +29,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class EventsSpotsFragment extends Fragment {
-
     RecyclerView spotsRV, eventsRV;
     private EventsSpotsViewModel eventsSpotsViewModel;
     EventAdapter eventAdapter;
@@ -52,7 +51,6 @@ public class EventsSpotsFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_events_spots, container, false);
 
-        // Inflar RecyclerViews
         eventsRV = view.findViewById(R.id.eventsRV);
         spotsRV = view.findViewById(R.id.spotsRV);
         buttonUpdate = view.findViewById(R.id.buttonUpdate);
@@ -62,7 +60,7 @@ public class EventsSpotsFragment extends Fragment {
             public void onClick(View v) {
                 eventsSpotsViewModel.loadSpots();
                 eventsSpotsViewModel.loadEvents();
-                Toast.makeText(getContext(), "Spots & Events Updated", Toast.LENGTH_SHORT);
+                Toast.makeText(getContext(), "Spots & Events Updated", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -126,8 +124,6 @@ public class EventsSpotsFragment extends Fragment {
             }
         });
 
-
-        // Establecer adaptadores en RecyclerViews
         eventsRV.setAdapter(eventAdapter);
         spotsRV.setAdapter(spotAdapter);
 

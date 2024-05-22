@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     style="@style/FragmentBackground.MadBeats"
-    tools:context=".fragment.EventInfoFragment">
+    tools:context=".fragment.EventInfoFragment"
+    android:paddingBottom="100dp">
 
 
     <LinearLayout
@@ -12,38 +14,45 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <LinearLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:padding="16dp">
+            android:orientation="horizontal">
 
             <Button
                 android:id="@+id/button_back"
                 android:layout_width="80dp"
                 android:layout_height="60dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="196dp"
+                android:layout_marginBottom="10dp"
                 android:backgroundTint="@color/green_light"
                 android:drawableLeft="@android:drawable/ic_menu_revert"
                 android:drawableTint="@color/blue_dark"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="80dp"
-                android:textColor="@android:color/white" />
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/button_add"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-            <ToggleButton
-                android:id="@+id/button_fav"
-                android:layout_width="130dp"
-                android:layout_height="60dp"
-                android:backgroundTint="@color/green_light"
-                android:drawableEnd="@drawable/toggle_fav_button"
-                android:drawableTint="@color/blue_dark"
-                android:textColor="@color/green_bright"
-                android:textOff="LIKE"
-                android:textOn="UNLIKE"
-                android:textSize="20dp"
-                android:layout_marginLeft="80dp"
-                android:layout_marginRight="10dp"
-                android:textStyle="bold" />
-        </LinearLayout>
+            <Button
+                android:id="@+id/button_add"
+                style="@style/Button.MadBeats"
+                android:layout_width="90dp"
+                android:layout_height="50dp"
+                android:layout_marginStart="9dp"
+                android:layout_marginTop="13dp"
+                android:layout_marginEnd="15dp"
+                android:layout_marginBottom="27dp"
+                android:text="ADD"
+                android:textSize="18dp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/button_back"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
 
         <fragment

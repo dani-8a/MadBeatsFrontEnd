@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.DELETE;
@@ -43,7 +44,7 @@ public interface APIService {
     Call<DefaultUser> loginUser(@Body DefaultUser user);
 
     @POST("/api/default_user/register")
-    Call<DefaultUser> registerUser(@Body DefaultUser user);
+    Call<ResponseBody> registerUser(@Body DefaultUser user);
 
     @GET("/api/default_user/{userId}/favourite_events")
     Call<List<Event>> getUserFavouriteEvents(@Path("userId")String userId);
@@ -53,5 +54,26 @@ public interface APIService {
 
     @DELETE("/api/default_user/{userId}/delete_all_favourites")
     Call<Void> deleteAllUserFavourites(@Path("userId") String userId);
+
+    @DELETE("/api/default_user/{userId}/delete_user")
+    Call<Void> deleteUser(@Path("userId") String userId);
+
+    @POST("/api/default_user/{userId}/add_event/{eventId}")
+    Call<Void> addEventToFavourites(@Path("userId") String userId, @Path("eventId") String eventId);
+
+    @DELETE("/api/default_user/{userId}/delete_event_favourites/{eventId}")
+    Call<Void> removeEventFromFavourites(@Path("userId") String userId, @Path("eventId") String eventId);
+
+    @POST("/api/default_user/{userId}/add_spot/{eventId}")
+    Call<Void> addSpotToFavourites(@Path("userId") String userId, @Path("spotId") String spotId);
+
+    @DELETE("/api/default_user/{userId}/delete_spot_favourites/{spotId}")
+    Call<Void> removeSpotFromFavourites(@Path("userId") String userId, @Path("spotId") String spotId);
+
+    @GET("/api/default_user/{userId}/events/{eventId}/is_favorite")
+    Call<Boolean> isEventInFavorites(@Path("userId") String userId, @Path("eventId") String eventId);
+
+    @GET("/api/default_user/{userId}/spots/{spotId}/is_favorite")
+    Call<Boolean> isSpotInFavorites(@Path("userId") String userId, @Path("spotId") String spotId);
 
 }

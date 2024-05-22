@@ -20,14 +20,12 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.example.madbeatsfrontend.R;
 import com.example.madbeatsfrontend.viewModel.FavouritesViewModel;
-import com.example.madbeatsfrontend.viewModel.LoginViewModel;
-
-import java.util.concurrent.atomic.AtomicReference;
+import com.example.madbeatsfrontend.viewModel.UserViewModel;
 
 public class SettingsFragment extends Fragment {
     private Button buttonLogin, buttonLogOut, buttonClearFav, buttonMessage, buttonEventManager, buttonRegister;
     private EditText editMail, editPassword;
-    private LoginViewModel viewModel;
+    private UserViewModel userViewModel;
     private FavouritesViewModel favouritesViewModel;
     private TextView txtUserState, txtDeleteUser;
 
@@ -54,7 +52,7 @@ public class SettingsFragment extends Fragment {
         txtUserState = view.findViewById(R.id.txtUserState);
         txtDeleteUser = view.findViewById(R.id.txtDeleteUser);
 
-        viewModel = new ViewModelProvider(this).get(LoginViewModel.class);
+        userViewModel = new ViewModelProvider(this).get(UserViewModel.class);
         favouritesViewModel = new ViewModelProvider(this).get(FavouritesViewModel.class);
 
         if (isUserLoggedIn()) {
@@ -66,7 +64,7 @@ public class SettingsFragment extends Fragment {
             txtUserState.setTextColor(Color.RED);
         }
 
-        viewModel.getLoginSuccess().observe(getViewLifecycleOwner(), success -> {
+        userViewModel.getLoginSuccess().observe(getViewLifecycleOwner(), success -> {
             if (success != null && success) {
                 String email = editMail.getText().toString();
                 String password = editPassword.getText().toString();
@@ -78,19 +76,20 @@ public class SettingsFragment extends Fragment {
             }
         });
 
-        viewModel.getErrorMessage().observe(getViewLifecycleOwner(), errorMsg -> {
+        userViewModel.getErrorMessage().observe(getViewLifecycleOwner(), errorMsg -> {
             if (errorMsg != null) {
                 Toast.makeText(getContext(), errorMsg, Toast.LENGTH_SHORT).show();
             }
         });
 
-        viewModel.getRegisterSuccess().observe(getViewLifecycleOwner(), success -> {
+        userViewModel.getRegisterSuccess().observe(getViewLifecycleOwner(), success -> {
             if (success != null && success) {
                 Toast.makeText(getContext(), "Registration successful", Toast.LENGTH_SHORT).show();
             } else {
                 Toast.makeText(getContext(), "Registration failed", Toast.LENGTH_SHORT).show();
             }
         });
+
         favouritesViewModel.deleteUserFavourites().observe(getViewLifecycleOwner(), isDeleted -> {
             if (isDeleted != null) {
                 if (isDeleted) {
@@ -101,14 +100,28 @@ public class SettingsFragment extends Fragment {
             }
         });
 
+        // Observa el estado de eliminación del usuario
+        userViewModel.getDeleteUserStatus().observe(getViewLifecycleOwner(), isDeleted -> {
+            if (isDeleted != null) {
+                if (isDeleted) {
+                    Toast.makeText(getContext(), "User deleted successfully", Toast.LENGTH_SHORT).show();
+                    userViewModel.logoutUser();
+                    txtUserState.setText("You are not logged in");
+                    txtUserState.setTextColor(Color.RED);
+                } else {
+                    Toast.makeText(getContext(), "Failed to delete user", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
         buttonLogin.setOnClickListener(v -> {
             String email = editMail.getText().toString();
             String password = editPassword.getText().toString();
-            viewModel.loginUser(email, password);
+            userViewModel.loginUser(email, password);
         });
 
         buttonLogOut.setOnClickListener(v -> {
-            viewModel.logoutUser();
+            userViewModel.logoutUser();
             txtUserState.setText("You are not logged in");
             txtUserState.setTextColor(Color.RED);
             Toast.makeText(getContext(), "You logged out", Toast.LENGTH_SHORT).show();
@@ -122,6 +135,14 @@ public class SettingsFragment extends Fragment {
             dialogFragment.show(getChildFragmentManager(), "RegisterDialogFragment");
         });
 
+        txtDeleteUser.setOnClickListener(v -> {
+            if (isUserLoggedIn()) {
+                showDeleteUserDialog();
+            } else {
+                Toast.makeText(getContext(), "You are not logged in", Toast.LENGTH_SHORT).show();
+            }
+        });
+
         buttonClearFav.setOnClickListener(v -> {
             if (isUserLoggedIn()) {
                 String userId = getUserIdFromSharedPreferences();
@@ -130,7 +151,6 @@ public class SettingsFragment extends Fragment {
                 showDialogClearFavourites();
             }
         });
-
     }
 
     private boolean isUserLoggedIn() {
@@ -174,5 +194,19 @@ public class SettingsFragment extends Fragment {
 
         Button buttonClose = dialogView.findViewById(R.id.buttonClose2);
         buttonClose.setOnClickListener(v -> dialog.dismiss());
+    }
+
+    private void showDeleteUserDialog() {
+        new AlertDialog.Builder(requireContext(),R.style.CustomAlertDialog)
+                .setTitle("CONFIRMATION")
+                .setMessage("Are you sure you want to delete your account in MadBeats?")
+                .setPositiveButton("OK", (dialog, which) -> {
+                    String userId = getUserIdFromSharedPreferences();
+                    userViewModel.deleteUser(userId);
+                    dialog.dismiss();
+                })
+                .setNegativeButton("Cancel", (dialog, which) -> dialog.dismiss())
+                .create()
+                .show();
     }
 }

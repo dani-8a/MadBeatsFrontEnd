@@ -51,7 +51,6 @@ public class FavouriteSpotsFragment extends Fragment {
         SharedPreferences sharedPreferences = requireActivity().getSharedPreferences(SHARED_PREFS_NAME, Context.MODE_PRIVATE);
         boolean isLoggedIn = sharedPreferences.getBoolean("isLoggedIn", false);
 
-        // Carga el layout correspondiente
         int layoutId = isLoggedIn ? R.layout.fragment_login_spots : R.layout.fragment_logout_spots;
         return inflater.inflate(layoutId, container, false);
     }
@@ -71,6 +70,19 @@ public class FavouriteSpotsFragment extends Fragment {
             favouriteSpotsAdapter = new FavouriteSpotsAdapter(new FavouriteSpotsAdapter.OnItemClickListener() {
                 @Override
                 public void onItemClick(Spot spot) {
+                    // Abrir el fragmento EventListBySpot y pasar el spotId como argumento
+                    FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
+                    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                    EventListBySpotFragment eventListBySpot = new EventListBySpotFragment();
+
+                    // Puedes pasar el ID del spot como argumento al fragmento
+                    Bundle bundle = new Bundle();
+                    bundle.putString("spotId", spot.getIdSpot());
+                    eventListBySpot.setArguments(bundle);
+
+                    fragmentTransaction.replace(R.id.frame_container, eventListBySpot);
+                    fragmentTransaction.addToBackStack(null);
+                    fragmentTransaction.commit();
                 }
             });
             recyclerView.setAdapter(favouriteSpotsAdapter);

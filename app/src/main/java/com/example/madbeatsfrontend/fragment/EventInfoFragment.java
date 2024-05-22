@@ -1,5 +1,9 @@
 package com.example.madbeatsfrontend.fragment;
 
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -14,12 +18,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.ToggleButton;
 
 import com.example.madbeatsfrontend.R;
 import com.example.madbeatsfrontend.entity.Event;
 import com.example.madbeatsfrontend.entity.Spot;
 import com.example.madbeatsfrontend.viewModel.EventsSpotsViewModel;
+import com.example.madbeatsfrontend.viewModel.FavouritesViewModel;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -30,8 +36,8 @@ import com.google.android.gms.maps.model.MarkerOptions;
 
 public class EventInfoFragment extends Fragment implements OnMapReadyCallback {
     private EventsSpotsViewModel eventsSpotsViewModel;
-    Button backButton;
-    ToggleButton favButton;
+    private FavouritesViewModel favouritesViewModel;
+    Button backButton, addButton;
     TextView txtNameEvent, txtNameSpot, txtAddressSpot, txtArtists, txtDate, txtSchedule, txtPrice,
             txtAge, txtMusicCategory, txtMusicGenre, txtURL, txtDressCode;
     GoogleMap map;
@@ -44,6 +50,7 @@ public class EventInfoFragment extends Fragment implements OnMapReadyCallback {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         eventsSpotsViewModel = new ViewModelProvider(requireActivity()).get(EventsSpotsViewModel.class);
+        favouritesViewModel = new ViewModelProvider(requireActivity()).get(FavouritesViewModel.class);
     }
 
     @Override
@@ -52,7 +59,7 @@ public class EventInfoFragment extends Fragment implements OnMapReadyCallback {
         View view = inflater.inflate(R.layout.fragment_event_info, container, false);
 
         backButton = view.findViewById(R.id.button_back);
-        favButton = view.findViewById(R.id.button_fav);
+        addButton = view.findViewById(R.id.button_add);
         txtNameEvent = view.findViewById(R.id.txt_name_event);
         txtNameSpot = view.findViewById(R.id.txt_name_spot);
         txtAddressSpot = view.findViewById(R.id.txt_address_spot);
@@ -126,6 +133,33 @@ public class EventInfoFragment extends Fragment implements OnMapReadyCallback {
             }
         });
 
+        addButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Verificar si el usuario está autenticado
+                String userId = getUserIdFromSharedPreferences();
+                if (userId == null) {
+                    // Si el usuario no está autenticado, mostrar el diálogo de inicio de sesión
+                    showLoginAlertDialog();
+                } else {
+                    // Si el usuario está autenticado, llamar al método para agregar el evento a favoritos
+                    Bundle arguments = getArguments();
+                    if (arguments != null) {
+                        String eventId = arguments.getString("eventId");
+                        if (eventId != null) {
+                            // Llamar al método para agregar el evento a favoritos
+                            favouritesViewModel.addEventToFavourites(userId, eventId);
+                            Toast.makeText(getContext(), "Added to Favourites", Toast.LENGTH_SHORT).show();
+                        } else {
+                            Log.e("EventInfoFragment", "Event ID is null");
+                        }
+                    } else {
+                        Log.e("EventInfoFragment", "Arguments are null");
+                    }
+                }
+            }
+        });
+
         return view;
     }
 
@@ -137,5 +171,24 @@ public class EventInfoFragment extends Fragment implements OnMapReadyCallback {
         CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(madrid, 15f);
         map.moveCamera(cameraUpdate);
     }
-}
 
+    private String getUserIdFromSharedPreferences() {
+        SharedPreferences sharedPreferences = requireContext().getSharedPreferences("UserData", Context.MODE_PRIVATE);
+        return sharedPreferences.getString("idUser", null);
+    }
+
+    private void showLoginAlertDialog() {
+        new AlertDialog.Builder(requireContext())
+                .setTitle("Login Required")
+                .setMessage("Please, log in to like events & spots")
+                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                })
+                .setIcon(android.R.drawable.ic_dialog_alert)
+                .show();
+    }
+
+}

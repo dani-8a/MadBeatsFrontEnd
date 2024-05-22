@@ -95,5 +95,58 @@ public class FavouritesViewModel extends ViewModel {
         });
     }
 
+    public void addEventToFavourites(String userId, String eventId) {
+        apiRepository.addEventToFavourites(userId, eventId, new Callback<Void>() {
+            @Override
+            public void onResponse(Call<Void> call, Response<Void> response) {
+                if (response.isSuccessful()) {
+                    Log.d("FavouritesViewModel", "Event added to favourites");
+                } else {
+                    Log.e("FavouritesViewModel", "Failed to add event to favourites. Response code: " + response.code());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Void> call, Throwable t) {
+                Log.e("FavouritesViewModel", "Failed to add event to favourites. Error: " + t.getMessage());
+            }
+        });
+    }
+
+    public void removeEventFromFavourites(String userId, String eventId) {
+        apiRepository.removeEventFromFavourites(userId, eventId, new Callback<Void>() {
+            @Override
+            public void onResponse(Call<Void> call, Response<Void> response) {
+                if (response.isSuccessful()) {
+                    Log.d("FavouritesViewModel", "Event removed from favourites");
+                } else {
+                    Log.e("FavouritesViewModel", "Failed to remove event from favourites. Response code: " + response.code());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Void> call, Throwable t) {
+                Log.e("FavouritesViewModel", "Failed to remove event from favourites. Error: " + t.getMessage());
+            }
+        });
+    }
+
+    public void addSpotToFavourites(String userId, String spotId) {
+        apiRepository.addEventToFavourites(userId, spotId, new Callback<Void>() {
+            @Override
+            public void onResponse(Call<Void> call, Response<Void> response) {
+                if (response.isSuccessful()) {
+                    Log.d("FavouritesViewModel", "Spot added to favourites");
+                } else {
+                    Log.e("FavouritesViewModel", "Failed to add spot to favourites. Response code: " + response.code());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Void> call, Throwable t) {
+                Log.e("FavouritesViewModel", "Failed to add spot to favourites. Error: " + t.getMessage());
+            }
+        });
+    }
 
 }
