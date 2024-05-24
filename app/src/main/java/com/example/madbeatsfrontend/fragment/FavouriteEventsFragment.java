@@ -71,14 +71,14 @@ public class FavouriteEventsFragment extends Fragment {
                     // Aquí abres el EventInfoFragment y pasas el evento seleccionado como argumento
                     FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
                     FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                    EventInfoFragment eventInfoFragment = new EventInfoFragment();
+                    UserEventInfoFragment userEventInfoFragment = new UserEventInfoFragment();
 
                     // Puedes pasar el evento como argumento al fragmento
                     Bundle bundle = new Bundle();
                     bundle.putString("eventId", event.getIdEvent());
-                    eventInfoFragment.setArguments(bundle);
+                    userEventInfoFragment.setArguments(bundle);
 
-                    fragmentTransaction.replace(R.id.frame_container, eventInfoFragment);
+                    fragmentTransaction.replace(R.id.frame_container, userEventInfoFragment);
                     fragmentTransaction.addToBackStack(null);
                     fragmentTransaction.commit();
                 }

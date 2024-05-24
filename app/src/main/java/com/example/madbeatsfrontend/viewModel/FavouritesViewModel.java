@@ -132,7 +132,7 @@ public class FavouritesViewModel extends ViewModel {
     }
 
     public void addSpotToFavourites(String userId, String spotId) {
-        apiRepository.addEventToFavourites(userId, spotId, new Callback<Void>() {
+        apiRepository.addSpotToFavourites(userId, spotId, new Callback<Void>() {
             @Override
             public void onResponse(Call<Void> call, Response<Void> response) {
                 if (response.isSuccessful()) {
@@ -145,6 +145,24 @@ public class FavouritesViewModel extends ViewModel {
             @Override
             public void onFailure(Call<Void> call, Throwable t) {
                 Log.e("FavouritesViewModel", "Failed to add spot to favourites. Error: " + t.getMessage());
+            }
+        });
+    }
+
+    public void removeSpotFromFavourites(String userId, String spotId) {
+        apiRepository.removeSpotFromFavourites(userId, spotId, new Callback<Void>() {
+            @Override
+            public void onResponse(Call<Void> call, Response<Void> response) {
+                if (response.isSuccessful()) {
+                    Log.d("FavouritesViewModel", "Spot removed from favourites");
+                } else {
+                    Log.e("FavouritesViewModel", "Failed to remove spot from favourites. Response code: " + response.code());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Void> call, Throwable t) {
+                Log.e("FavouritesViewModel", "Failed to remove spot from favourites. Error: " + t.getMessage());
             }
         });
     }

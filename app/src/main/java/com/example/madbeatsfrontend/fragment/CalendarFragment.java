@@ -78,7 +78,6 @@ public class CalendarFragment extends DialogFragment {
             }
         });
 
-
         // Configurar listener para capturar la fecha seleccionada en el CalendarView
         calendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
             @Override

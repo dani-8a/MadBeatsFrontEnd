@@ -73,14 +73,14 @@ public class FavouriteSpotsFragment extends Fragment {
                     // Abrir el fragmento EventListBySpot y pasar el spotId como argumento
                     FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
                     FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                    EventListBySpotFragment eventListBySpot = new EventListBySpotFragment();
+                    UserEventListBySpotFragment userEventListBySpotFragment = new UserEventListBySpotFragment();
 
                     // Puedes pasar el ID del spot como argumento al fragmento
                     Bundle bundle = new Bundle();
                     bundle.putString("spotId", spot.getIdSpot());
-                    eventListBySpot.setArguments(bundle);
+                    userEventListBySpotFragment.setArguments(bundle);
 
-                    fragmentTransaction.replace(R.id.frame_container, eventListBySpot);
+                    fragmentTransaction.replace(R.id.frame_container, userEventListBySpotFragment);
                     fragmentTransaction.addToBackStack(null);
                     fragmentTransaction.commit();
                 }

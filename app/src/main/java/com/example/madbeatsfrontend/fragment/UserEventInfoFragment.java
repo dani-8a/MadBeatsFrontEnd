@@ -5,13 +5,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProvider;
-
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,6 +12,12 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.example.madbeatsfrontend.R;
 import com.example.madbeatsfrontend.client.GeoRepository;
@@ -37,16 +36,16 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
-public class EventInfoFragment extends Fragment implements OnMapReadyCallback {
+public class UserEventInfoFragment extends Fragment implements OnMapReadyCallback {
     private EventsSpotsViewModel eventsSpotsViewModel;
     private FavouritesViewModel favouritesViewModel;
     private GeoRepository geoRepository;
-    private Button backButton, addButton;
-    private TextView txtNameEvent, txtNameSpot, txtAddressSpot, txtArtists, txtDate, txtSchedule, txtPrice,
+    Button backButton, deleteButton;
+    TextView txtNameEvent, txtNameSpot, txtAddressSpot, txtArtists, txtDate, txtSchedule, txtPrice,
             txtAge, txtMusicCategory, txtMusicGenre, txtURL, txtDressCode;
-    private GoogleMap map;
+    GoogleMap map;
 
-    public EventInfoFragment() {
+    public UserEventInfoFragment() {
 
     }
 
@@ -61,10 +60,10 @@ public class EventInfoFragment extends Fragment implements OnMapReadyCallback {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_event_info, container, false);
+        View view = inflater.inflate(R.layout.fragment_user_event_info, container, false);
 
         backButton = view.findViewById(R.id.button_back);
-        addButton = view.findViewById(R.id.button_add);
+        deleteButton = view.findViewById(R.id.button_delete);
         txtNameEvent = view.findViewById(R.id.txt_name_event);
         txtNameSpot = view.findViewById(R.id.txt_name_spot);
         txtAddressSpot = view.findViewById(R.id.txt_address_spot);
@@ -97,10 +96,10 @@ public class EventInfoFragment extends Fragment implements OnMapReadyCallback {
                 // Llamar al método loadEventInfo del ViewModel para cargar la información del evento
                 eventsSpotsViewModel.loadEventInfo(eventId);
             } else {
-                Log.e("EventInfoFragment", "Event ID is null");
+                Log.e("UserEventInfoFragment", "Event ID is null");
             }
         } else {
-            Log.e("EventInfoFragment", "Arguments are null");
+            Log.e("UserEventInfoFragment", "Arguments are null");
         }
 
         // Observar LiveData del ViewModel para recibir la información del evento
@@ -143,12 +142,12 @@ public class EventInfoFragment extends Fragment implements OnMapReadyCallback {
                         }
                     });
                 } else {
-                    Log.e("EventInfoFragment", "Event is null");
+                    Log.e("UserEventInfoFragment", "Event is null");
                 }
             }
         });
 
-        addButton.setOnClickListener(new View.OnClickListener() {
+        deleteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 // Verificar si el usuario está autenticado
@@ -157,19 +156,19 @@ public class EventInfoFragment extends Fragment implements OnMapReadyCallback {
                     // Si el usuario no está autenticado, mostrar el diálogo de inicio de sesión
                     showLoginAlertDialog();
                 } else {
-                    // Si el usuario está autenticado, llamar al método para agregar el evento a favoritos
+                    // Si el usuario está autenticado, llamar al método para remover el evento a favoritos
                     Bundle arguments = getArguments();
                     if (arguments != null) {
                         String eventId = arguments.getString("eventId");
                         if (eventId != null) {
-                            // Llamar al método para agregar el evento a favoritos
-                            favouritesViewModel.addEventToFavourites(userId, eventId);
-                            Toast.makeText(getContext(), "Added to Favourites", Toast.LENGTH_SHORT).show();
+                            // Llamar al método para remover el evento de favoritos
+                            favouritesViewModel.removeEventFromFavourites(userId, eventId);
+                            Toast.makeText(getContext(), "Removed from Favourites", Toast.LENGTH_SHORT).show();
                         } else {
-                            Log.e("EventInfoFragment", "Event ID is null");
+                            Log.e("UserEventInfoFragment", "Event ID is null");
                         }
                     } else {
-                        Log.e("EventInfoFragment", "Arguments are null");
+                        Log.e("UserEventInfoFragment", "Arguments are null");
                     }
                 }
             }
@@ -181,9 +180,9 @@ public class EventInfoFragment extends Fragment implements OnMapReadyCallback {
     @Override
     public void onMapReady(@NonNull GoogleMap googleMap) {
         map = googleMap;
-        LatLng defaultLocation = new LatLng(40.4168, -3.7038);
-        map.addMarker(new MarkerOptions().position(defaultLocation).title("Madrid"));
-        CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(defaultLocation, 15f);
+        LatLng madrid = new LatLng(40.4168, -3.7038);
+        map.addMarker(new MarkerOptions().position(madrid).title("Madrid"));
+        CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(madrid, 15f);
         map.moveCamera(cameraUpdate);
     }
 

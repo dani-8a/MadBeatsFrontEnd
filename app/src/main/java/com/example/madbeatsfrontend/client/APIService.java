@@ -64,7 +64,7 @@ public interface APIService {
     @DELETE("/api/default_user/{userId}/delete_event_favourites/{eventId}")
     Call<Void> removeEventFromFavourites(@Path("userId") String userId, @Path("eventId") String eventId);
 
-    @POST("/api/default_user/{userId}/add_spot/{eventId}")
+    @POST("/api/default_user/{userId}/add_spot/{spotId}")
     Call<Void> addSpotToFavourites(@Path("userId") String userId, @Path("spotId") String spotId);
 
     @DELETE("/api/default_user/{userId}/delete_spot_favourites/{spotId}")
