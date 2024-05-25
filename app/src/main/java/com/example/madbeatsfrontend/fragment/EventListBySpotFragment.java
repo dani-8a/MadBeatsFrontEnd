@@ -165,7 +165,7 @@ public class EventListBySpotFragment extends Fragment {
     }
 
     private void showLoginAlertDialog() {
-        new AlertDialog.Builder(requireContext())
+        new AlertDialog.Builder(requireContext(),  R.style.CustomAlertDialog)
                 .setTitle("Login Required")
                 .setMessage("Please, log in to like events & spots")
                 .setPositiveButton("OK", new DialogInterface.OnClickListener() {

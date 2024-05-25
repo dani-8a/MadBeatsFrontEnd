@@ -20,7 +20,7 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.madbeatsfrontend.R;
-import com.example.madbeatsfrontend.client.GeoRepository;
+import com.example.madbeatsfrontend.client.GeocodingService;
 import com.example.madbeatsfrontend.entity.Event;
 import com.example.madbeatsfrontend.viewModel.EventsSpotsViewModel;
 import com.example.madbeatsfrontend.viewModel.FavouritesViewModel;
@@ -39,7 +39,7 @@ import java.util.Map;
 public class UserEventInfoFragment extends Fragment implements OnMapReadyCallback {
     private EventsSpotsViewModel eventsSpotsViewModel;
     private FavouritesViewModel favouritesViewModel;
-    private GeoRepository geoRepository;
+    private GeocodingService geocodingService;
     Button backButton, deleteButton;
     TextView txtNameEvent, txtNameSpot, txtAddressSpot, txtArtists, txtDate, txtSchedule, txtPrice,
             txtAge, txtMusicCategory, txtMusicGenre, txtURL, txtDressCode;
@@ -54,7 +54,7 @@ public class UserEventInfoFragment extends Fragment implements OnMapReadyCallbac
         super.onCreate(savedInstanceState);
         eventsSpotsViewModel = new ViewModelProvider(requireActivity()).get(EventsSpotsViewModel.class);
         favouritesViewModel = new ViewModelProvider(requireActivity()).get(FavouritesViewModel.class);
-        geoRepository = new GeoRepository();
+        geocodingService = new GeocodingService();
     }
 
     @Override
@@ -124,7 +124,7 @@ public class UserEventInfoFragment extends Fragment implements OnMapReadyCallbac
 
                     // Geocodificar la dirección del spot y actualizar el marcador en el mapa
                     List<String> addresses = Collections.singletonList(event.getSpot().getAddressSpot());
-                    geoRepository.geocodeAddressesToLatLng(addresses, new GeoRepository.GeocodeCallback() {
+                    geocodingService.geocodeAddressesToLatLng(addresses, new GeocodingService.GeocodeCallback() {
                         @Override
                         public void onGeocodeSuccess(Map<String, LatLng> coordinatesMap) {
                             LatLng spotLatLng = coordinatesMap.get(event.getSpot().getAddressSpot());

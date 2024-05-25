@@ -8,9 +8,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.recyclerview.widget.RecyclerView;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -21,8 +19,7 @@ import android.widget.Toast;
 
 import com.example.madbeatsfrontend.R;
 import com.example.madbeatsfrontend.adapter.CustomInfoWindowAdapter;
-import com.example.madbeatsfrontend.adapter.SpotAdapter;
-import com.example.madbeatsfrontend.client.GeoRepository;
+import com.example.madbeatsfrontend.client.GeocodingService;
 import com.example.madbeatsfrontend.entity.Spot;
 import com.example.madbeatsfrontend.interfaces.OnSpotsFilteredListener;
 import com.example.madbeatsfrontend.viewModel.EventsSpotsViewModel;
@@ -40,15 +37,12 @@ import java.util.List;
 import java.util.Map;
 
 public class SearchFragment extends Fragment implements OnMapReadyCallback, GoogleMap.OnMapClickListener, GoogleMap.OnMapLongClickListener, OnSpotsFilteredListener {
-
     private EventsSpotsViewModel eventsSpotsViewModel;
-    SpotAdapter spotAdapter;
-    RecyclerView spotsRV;
     private GoogleMap map;
     private Button buttonDate, buttonMusicCat, buttonResetFilters;
     private boolean isCalendarOpen = false;
     private boolean isMusicCategoriesOpen = false;
-    private GeoRepository geoRepository = new GeoRepository();
+    private GeocodingService geocodingService = new GeocodingService();
     private boolean musicCategoryFilterApplied = false;
     private String selectedMusicCategory = "";
     private int selectedDay = 0;
@@ -142,10 +136,10 @@ public class SearchFragment extends Fragment implements OnMapReadyCallback, Goog
             for (Spot spot : spots) {
                 addresses.add(spot.getAddressSpot());
             }
-
-            geoRepository.geocodeAddressesToLatLng(addresses, new GeoRepository.GeocodeCallback() {
+            geocodingService.geocodeAddressesToLatLng(addresses, new GeocodingService.GeocodeCallback() {
                 @Override
                 public void onGeocodeSuccess(Map<String, LatLng> coordinatesMap) {
+                    // Este código ya se ejecuta en el hilo principal
                     for (Spot spot : spots) {
                         LatLng coordinates = coordinatesMap.get(spot.getAddressSpot());
                         if (coordinates != null) {
@@ -158,8 +152,12 @@ public class SearchFragment extends Fragment implements OnMapReadyCallback, Goog
                         }
                     }
 
-                    map.setInfoWindowAdapter(new CustomInfoWindowAdapter(getContext()));
-                    map.setOnInfoWindowClickListener(marker -> openEventListBySpotFragment(marker.getSnippet()));
+                    if (getContext() != null) {
+                        map.setInfoWindowAdapter(new CustomInfoWindowAdapter(getContext()));
+                        map.setOnInfoWindowClickListener(marker -> openEventListBySpotFragment(marker.getSnippet()));
+                    } else {
+                        Log.e("SearchFragment", "Context is null when setting CustomInfoWindowAdapter");
+                    }
                 }
 
                 @Override
@@ -276,3 +274,4 @@ public class SearchFragment extends Fragment implements OnMapReadyCallback, Goog
         }
     }
 }
+

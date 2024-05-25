@@ -145,8 +145,7 @@ public class SettingsFragment extends Fragment {
 
         buttonClearFav.setOnClickListener(v -> {
             if (isUserLoggedIn()) {
-                String userId = getUserIdFromSharedPreferences();
-                favouritesViewModel.deleteAllUserFavourites(userId);
+                showRemoveFavouritesUserDialog();
             } else {
                 showDialogClearFavourites();
             }
@@ -206,6 +205,22 @@ public class SettingsFragment extends Fragment {
                     dialog.dismiss();
                 })
                 .setNegativeButton("Cancel", (dialog, which) -> dialog.dismiss())
+                .setIcon(android.R.drawable.ic_dialog_alert)
+                .create()
+                .show();
+    }
+
+    private void showRemoveFavouritesUserDialog() {
+        new AlertDialog.Builder(requireContext(),R.style.CustomAlertDialog)
+                .setTitle("CONFIRMATION")
+                .setMessage("Are you sure you want to clear your favourite lists?")
+                .setPositiveButton("OK", (dialog, which) -> {
+                    String userId = getUserIdFromSharedPreferences();
+                    favouritesViewModel.deleteAllUserFavourites(userId);
+                    dialog.dismiss();
+                })
+                .setNegativeButton("Cancel", (dialog, which) -> dialog.dismiss())
+                .setIcon(android.R.drawable.ic_dialog_alert)
                 .create()
                 .show();
     }
