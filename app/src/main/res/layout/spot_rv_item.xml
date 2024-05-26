@@ -1,14 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="150dp"
-    android:layout_height="150dp"
-    android:layout_gravity="center">
+    android:layout_width="170dp"
+    android:layout_height="185dp"
+    android:background="@android:color/transparent"
+    android:layout_gravity="center"
+    android:layout_margin="8dp">
 
     <RelativeLayout
 
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/blue_light2">
+        android:background="@color/blue_dark"
+        android:padding="8dp">
 
         <TextView
             android:id="@+id/txtSpotRV"
@@ -18,7 +21,7 @@
             android:layout_marginBottom="8dp"
             android:layout_marginLeft="8dp"
             android:layout_marginRight="8dp"
-            android:text="Spot"
+            android:text="@string/spot"
             android:textSize="20sp"
             android:gravity="center"
             android:textColor="@color/green_bright"

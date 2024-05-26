@@ -39,7 +39,7 @@ public class EventListBySpotFragment extends Fragment {
     private EventsSpotsViewModel eventsSpotsViewModel;
     private FavouritesViewModel favouritesViewModel;
     Button backButton, addButton;
-    TextView txtSpotName, txtSpotAddress;
+    TextView txtSpotName, txtSpotAddress, txtEmptyEvents;
     RecyclerView eventListRV;
     EventListBySpotAdapter eventListBySpotAdapter;
 
@@ -60,6 +60,7 @@ public class EventListBySpotFragment extends Fragment {
         eventListRV = view.findViewById(R.id.eventListRV);
         txtSpotName = view.findViewById(R.id.txtSpotName);
         txtSpotAddress = view.findViewById(R.id.txtSpotAddress);
+        txtEmptyEvents = view.findViewById(R.id.txtEmptyEvents);
         backButton = view.findViewById(R.id.button_back);
         addButton = view.findViewById(R.id.button_add);
 
@@ -122,7 +123,8 @@ public class EventListBySpotFragment extends Fragment {
                         String spotId = arguments.getString("spotId");
                         if (spotId != null) {
                             // Llamar al método para agregar el evento a favoritos
-                            favouritesViewModel.addSpotToFavourites(userId, spotId);
+                            favouritesViewModel.addSpotToFavourites
+                                    (userId, spotId);
                             Toast.makeText(getContext(), "Added to Favourites", Toast.LENGTH_SHORT).show();
                         } else {
                             Log.e("EventInfoFragment", "Spot ID is null");
@@ -148,12 +150,25 @@ public class EventListBySpotFragment extends Fragment {
 
                     // Actualizar la lista de eventos asociados al spot
                     List<Event> events = spotWithEventResponse.getEvents();
-                    eventListBySpotAdapter.updateEventList(events);
+                    if (events != null && !events.isEmpty()) {
+                        // Si hay eventos, mostrar el RecyclerView y ocultar el TextView
+                        eventListBySpotAdapter.updateEventList(events);
+                        eventListRV.setVisibility(View.VISIBLE);
+                        txtEmptyEvents.setVisibility(View.GONE);
+                    } else {
+                        // Si no hay eventos, ocultar el RecyclerView y mostrar el TextView
+                        eventListBySpotAdapter.clearEventList();
+                        eventListRV.setVisibility(View.GONE);
+                        txtEmptyEvents.setVisibility(View.VISIBLE);
+                    }
                 } else {
                     txtSpotName.setText("N/A");
                     txtSpotAddress.setText("N/A");
                     // Limpiar la lista de eventos
                     eventListBySpotAdapter.clearEventList();
+                    // Ocultar el RecyclerView y mostrar el TextView
+                    eventListRV.setVisibility(View.GONE);
+                    txtEmptyEvents.setVisibility(View.VISIBLE);
                 }
             }
         });

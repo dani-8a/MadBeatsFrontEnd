@@ -150,6 +150,11 @@ public class SettingsFragment extends Fragment {
                 showDialogClearFavourites();
             }
         });
+
+        buttonMessage.setOnClickListener(v -> {
+            FeedbackFragment feedbackFragment = new FeedbackFragment();
+            feedbackFragment.show(getParentFragmentManager(), "feedbackFragment");
+        });
     }
 
     private boolean isUserLoggedIn() {

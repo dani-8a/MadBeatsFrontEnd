@@ -1,24 +1,25 @@
 package com.example.madbeatsfrontend.entity;
 
 import java.io.Serializable;
+import java.util.List;
 
 public class Event implements Serializable {
 
     private String idEvent;
     private String nameEvent;
-    private String artists;
+    private List<String> artists;
     private String date;
     private String schedule;
     private double price;
     private int minimumAge;
     private String musicCategory;
-    private String musicGenres;
+    private List<String> musicGenres;
     private String urlEvent;
     private String dressCode;
     private Spot spot;
 
-    public Event(String idEvent, String nameEvent, String artists, String date, String schedule, double price, int minimumAge,
-                 String musicCategory, String musicGenres, String urlEvent, String dressCode, Spot spot) {
+    public Event(String idEvent, String nameEvent, List<String> artists, String date, String schedule, double price, int minimumAge,
+                 String musicCategory, List<String> musicGenres, String urlEvent, String dressCode, Spot spot) {
         this.idEvent = idEvent;
         this.nameEvent = nameEvent;
         this.artists = artists;
@@ -49,11 +50,9 @@ public class Event implements Serializable {
         this.nameEvent = nameEvent;
     }
 
-    public String getArtists() {
-        return artists;
-    }
+    public List<String> getArtists() { return artists; }
 
-    public void setArtists(String artists) {
+    public void setArtists(List<String> artists) {
         this.artists = artists;
     }
 
@@ -97,9 +96,13 @@ public class Event implements Serializable {
         this.musicCategory = musicCategory;
     }
 
-    public String getMusicGenres() {return musicGenres;}
+    public List<String> getMusicGenres() {
+        return musicGenres;
+    }
 
-    public void setMusicGenres(String musicGenres) {this.musicGenres = musicGenres;}
+    public void setMusicGenres(List<String> musicGenres) {
+        this.musicGenres = musicGenres;
+    }
 
     public String getUrlEvent() {
         return urlEvent;
@@ -125,18 +128,20 @@ public class Event implements Serializable {
         this.spot = spot;
     }
 
+    public String getArtistsAsString() { return String.join(", ", artists); }
+
     @Override
     public String toString() {
         return "Event{" +
-                "idEvent=" + idEvent +
+                "idEvent='" + idEvent + '\'' +
                 ", nameEvent='" + nameEvent + '\'' +
-                ", artists='" + artists + '\'' +
+                ", artists=" + artists +
                 ", date='" + date + '\'' +
                 ", schedule='" + schedule + '\'' +
                 ", price=" + price +
                 ", minimumAge=" + minimumAge +
                 ", musicCategory='" + musicCategory + '\'' +
-                ", musicGenres='" + musicGenres + '\'' +
+                ", musicGenres=" + musicGenres +
                 ", urlEvent='" + urlEvent + '\'' +
                 ", dressCode='" + dressCode + '\'' +
                 ", spot=" + spot +

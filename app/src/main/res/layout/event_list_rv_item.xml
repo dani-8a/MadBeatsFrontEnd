@@ -1,34 +1,68 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="100dp"
+    android:layout_height="110dp"
+    android:layout_margin="4dp"
     android:background="@android:color/transparent"
     android:layout_gravity="center">
 
-    <RelativeLayout
-
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/blue_light2">
+        android:background="@color/blue_light2"
+        android:orientation="vertical">
 
         <TextView
-            android:id="@+id/txtEventListRV"
+            android:id="@+id/txtEventName"
             style="@style/RecyclerViewItemStyle"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginLeft="8dp"
+            android:layout_height="50dp"
             android:layout_marginTop="8dp"
-            android:layout_marginRight="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
             android:layout_marginBottom="8dp"
             android:background="@drawable/rv_item_design"
             android:gravity="center"
-            android:text="Name Event"
             android:textColor="@color/green_bright"
             android:textSize="25sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:text="@string/name_event"/>
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="4dp"
+            android:orientation="horizontal">
 
+            <TextView
+                android:id="@+id/txtEventDate"
+                android:layout_width="0dp"
+                android:layout_height="30dp"
+                android:layout_weight="1"
+                android:layout_marginStart="20dp"
+                android:layout_marginBottom="4dp"
+                android:layout_marginEnd="10dp"
+                android:background="@drawable/rv_item_design"
+                android:gravity="center"
+                android:textStyle="bold"
+                android:textColor="@color/green_bright"
+                android:text="Date" />
 
-    </RelativeLayout>
+            <TextView
+                android:id="@+id/txtMusicCategory"
+                android:layout_width="0dp"
+                android:layout_height="30dp"
+                android:layout_weight="1"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="20dp"
+                android:layout_marginBottom="4dp"
+                android:background="@drawable/rv_item_design"
+                android:gravity="center"
+                android:textStyle="bold"
+                android:textColor="@color/green_bright"
+                android:text="Music Category" />
+        </LinearLayout>
+
+    </LinearLayout>
 
 </androidx.cardview.widget.CardView>

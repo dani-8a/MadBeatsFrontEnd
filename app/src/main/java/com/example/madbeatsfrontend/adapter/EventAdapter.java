@@ -11,7 +11,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.madbeatsfrontend.R;
 import com.example.madbeatsfrontend.entity.Event;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class EventAdapter extends RecyclerView.Adapter<EventAdapter.EventViewHolder> {
@@ -42,32 +41,32 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.EventViewHol
         return eventList.size();
     }
 
-    public Event getItem(int position) {
-        return eventList.get(position);
-    }
-
-    public void clearEventList() {
+    public void updateEventList(List<Event> newList) {
         eventList.clear();
+        eventList.addAll(newList);
         notifyDataSetChanged();
     }
 
-
     static class EventViewHolder extends RecyclerView.ViewHolder {
         private TextView eventNameTextView;
+        private TextView eventDateTextView;
+        private TextView eventMusicCatTextView;
 
         EventViewHolder(@NonNull View itemView) {
             super(itemView);
-            eventNameTextView = itemView.findViewById(R.id.txtEventRV);
+            eventNameTextView = itemView.findViewById(R.id.txtEventName);
+            eventDateTextView = itemView.findViewById(R.id.txtEventDate);
+            eventMusicCatTextView = itemView.findViewById(R.id.txtMusicCategory);
         }
 
         void bind(Event event, OnItemClickListener listener) {
             eventNameTextView.setText(event.getNameEvent());
-            itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (listener != null) {
-                        listener.onItemClick(event);
-                    }
+            eventDateTextView.setText(event.getDate());
+            eventMusicCatTextView.setText(event.getMusicCategory());
+
+            itemView.setOnClickListener(v -> {
+                if (listener != null) {
+                    listener.onItemClick(event);
                 }
             });
         }
@@ -75,14 +74,5 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.EventViewHol
 
     public interface OnItemClickListener {
         void onItemClick(Event event);
-    }
-
-    public void updateEventList(List<Event> newList) {
-        if (eventList == null) {
-            eventList = new ArrayList<>(); // Inicializar eventList si es nulo
-        }
-        eventList.clear();
-        eventList.addAll(newList);
-        notifyDataSetChanged();
     }
 }

@@ -36,7 +36,7 @@ public class UserEventListBySpotFragment extends Fragment {
     private EventsSpotsViewModel eventsSpotsViewModel;
     private FavouritesViewModel favouritesViewModel;
     Button backButton, deleteButton;
-    TextView txtSpotName, txtSpotAddress;
+    TextView txtSpotName, txtSpotAddress, txtEmptyEvents;
     RecyclerView eventListRV;
     EventListBySpotAdapter eventListBySpotAdapter;
 
@@ -57,6 +57,7 @@ public class UserEventListBySpotFragment extends Fragment {
         eventListRV = view.findViewById(R.id.eventListRV);
         txtSpotName = view.findViewById(R.id.txtSpotName);
         txtSpotAddress = view.findViewById(R.id.txtSpotAddress);
+        txtEmptyEvents = view.findViewById(R.id.txtEmptyEvents);
         backButton = view.findViewById(R.id.button_back);
         deleteButton = view.findViewById(R.id.button_delete);
 
@@ -145,12 +146,23 @@ public class UserEventListBySpotFragment extends Fragment {
 
                     // Actualizar la lista de eventos asociados al spot
                     List<Event> events = spotWithEventResponse.getEvents();
-                    eventListBySpotAdapter.updateEventList(events);
+                    if (events != null && !events.isEmpty()) {
+                        // Si hay eventos, mostrar el RecyclerView y ocultar el TextView
+                        eventListBySpotAdapter.updateEventList(events);
+                        eventListRV.setVisibility(View.VISIBLE);
+                        txtEmptyEvents.setVisibility(View.GONE);
+                    } else {
+                        // Si no hay eventos, ocultar el RecyclerView y mostrar el TextView
+                        eventListBySpotAdapter.clearEventList();
+                        eventListRV.setVisibility(View.GONE);
+                        txtEmptyEvents.setVisibility(View.VISIBLE);
+                    }
                 } else {
                     txtSpotName.setText("N/A");
                     txtSpotAddress.setText("N/A");
-                    // Limpiar la lista de eventos
                     eventListBySpotAdapter.clearEventList();
+                    eventListRV.setVisibility(View.GONE);
+                    txtEmptyEvents.setVisibility(View.VISIBLE);
                 }
             }
         });

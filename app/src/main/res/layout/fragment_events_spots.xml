@@ -10,7 +10,8 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:paddingBottom="50dp">
 
         <Button
             android:id="@+id/buttonUpdate"
@@ -71,6 +72,7 @@
             android:id="@+id/eventsRV"
             android:layout_width="match_parent"
             android:layout_height="205dp"
+            android:background="@color/blue_light"
             android:scrollbars="horizontal" />
 
         <TextView
@@ -91,6 +93,7 @@
             android:id="@+id/spotsRV"
             android:layout_width="match_parent"
             android:layout_height="205dp"
+            android:background="@color/blue_light"
             android:scrollbars="horizontal" />
 
     </LinearLayout>

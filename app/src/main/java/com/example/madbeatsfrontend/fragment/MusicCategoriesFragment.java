@@ -213,14 +213,11 @@ public class MusicCategoriesFragment extends DialogFragment {
     }
 
     public void applyMusicCategoryFilter(String selectedCategory) {
-        // Llama al ViewModel para cargar los spots filtrados por la categoría musical seleccionada
-        eventsSpotsViewModel.loadSpotsByEventMusicCategory(selectedCategory);
-        // Cierra el MusicCategoriesFragment
-        dismiss();
-        // Muestra el SearchFragment
-        if (searchFragment != null) {
+        if (getTargetFragment() instanceof SearchFragment) {
+            SearchFragment searchFragment = (SearchFragment) getTargetFragment();
             searchFragment.updateMapWithFilteredSpotsByMusicCategory(selectedCategory);
         }
+        dismiss();
         // Verifica si se seleccionó una categoría
         if (selectedCategory != null && !selectedCategory.isEmpty()) {
             // Imprime la categoría seleccionada en el log

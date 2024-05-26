@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="350dp"
+    android:layout_height="500dp"
+    style="@style/FragmentBackground.MadBeats"
+    tools:context=".fragment.FeedbackFragment">
+
+    <LinearLayout
+        android:layout_width="350dp"
+        android:layout_height="500dp"
+        android:padding="4dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/txtFeedback"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:gravity="center"
+            android:textColor="@color/blue_dark"
+            android:textStyle="bold"
+            android:textSize="25dp"
+            android:text="FEEDBACK" />
+
+        <TextView
+            android:id="@+id/txtOptions"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:textColor="@color/blue_dark"
+            android:textStyle="bold"
+            android:text="Choose one option:" />
+
+        <RadioGroup
+            android:id="@+id/radioGroup"
+            android:layout_width="match_parent"
+            android:layout_height="145dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp">
+
+            <RadioButton
+                android:id="@+id/radioButton1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/green_bright"
+                android:checked="true"
+                android:text="Suggestion" />
+
+            <RadioButton
+                android:id="@+id/radioButton2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/green_bright"
+                android:text="Issue" />
+
+            <RadioButton
+                android:id="@+id/radioButton3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/green_bright"
+                android:text="Others" />
+
+        </RadioGroup>
+
+        <EditText
+            android:id="@+id/editMessage"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:layout_marginStart="5dp"
+            android:layout_marginEnd="5dp"
+            android:ems="10"
+            android:inputType="textMultiLine|textNoSuggestions"
+            android:gravity="top"
+            android:scrollbars="vertical"
+            android:textColor="@color/blue_dark"
+            android:textColorHint="@color/blue_dark"
+            android:background="#DFDEDE"
+            android:hint="Type here..."
+            android:maxLines="10"
+            android:textStyle="normal"
+            android:overScrollMode="always"
+            android:scrollbarStyle="insideOverlay"
+            android:autoLink="none"
+            android:linksClickable="false" />
+
+
+        <Button
+            android:id="@+id/buttonSend"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="30dp"
+            android:layout_marginEnd="30dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginBottom="10dp"
+            style="@style/Button.MadBeats"
+            android:textSize="20dp"
+            android:text="SEND" />
+
+    </LinearLayout>
+</FrameLayout>

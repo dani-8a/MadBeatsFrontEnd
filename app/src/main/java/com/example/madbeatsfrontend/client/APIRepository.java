@@ -2,6 +2,7 @@ package com.example.madbeatsfrontend.client;
 
 import com.example.madbeatsfrontend.entity.DefaultUser;
 import com.example.madbeatsfrontend.entity.Event;
+import com.example.madbeatsfrontend.entity.Feedback;
 import com.example.madbeatsfrontend.entity.Spot;
 import com.example.madbeatsfrontend.entity.SpotWithEventResponse;
 
@@ -77,12 +78,8 @@ public class APIRepository {
         apiService.removeSpotFromFavourites(userId, spotId).enqueue(callback);
     }
 
-    public void isEventInFavorites(String userId, String eventId, Callback<Boolean> callback) {
-        apiService.isEventInFavorites(userId, eventId).enqueue(callback);
-    }
-
-    public void isSpotInFavorites(String userId, String spotId, Callback<Boolean> callback) {
-        apiService.isSpotInFavorites(userId, spotId).enqueue(callback);
+    public void sendMessageFeedback(Feedback feedback, Callback<ResponseBody> callback) {
+        apiService.sendMessageFeedback(feedback).enqueue(callback);
     }
 
 

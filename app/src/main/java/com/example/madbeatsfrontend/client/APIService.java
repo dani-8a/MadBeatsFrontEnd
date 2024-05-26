@@ -2,6 +2,7 @@ package com.example.madbeatsfrontend.client;
 
 import com.example.madbeatsfrontend.entity.DefaultUser;
 import com.example.madbeatsfrontend.entity.Event;
+import com.example.madbeatsfrontend.entity.Feedback;
 import com.example.madbeatsfrontend.entity.Spot;
 import com.example.madbeatsfrontend.entity.SpotWithEventResponse;
 
@@ -28,10 +29,10 @@ public interface APIService {
     @GET("/api/events")
     Call<List<Event>> getAllEvents();
 
-    @GET("/api/events/{eventId}")
+    @GET("/api/events/event_info/{eventId}")
     Call<Event> getEventInfo(@Path("eventId") String eventId);
 
-    @GET("/api/spots/{spotId}/events")
+    @GET("/api/spots/{spotId}/events_associated")
     Call<SpotWithEventResponse> getSpotWithEvents(@Path("spotId") String spotId);
 
     @GET("/api/spots/spotsByMusicCategory/{musicCategory}")
@@ -70,10 +71,8 @@ public interface APIService {
     @DELETE("/api/default_user/{userId}/delete_spot_favourites/{spotId}")
     Call<Void> removeSpotFromFavourites(@Path("userId") String userId, @Path("spotId") String spotId);
 
-    @GET("/api/default_user/{userId}/events/{eventId}/is_favorite")
-    Call<Boolean> isEventInFavorites(@Path("userId") String userId, @Path("eventId") String eventId);
+    @POST("/api/feedback/send_message")
+    Call<ResponseBody> sendMessageFeedback(@Body Feedback feedback);
 
-    @GET("/api/default_user/{userId}/spots/{spotId}/is_favorite")
-    Call<Boolean> isSpotInFavorites(@Path("userId") String userId, @Path("spotId") String spotId);
 
 }

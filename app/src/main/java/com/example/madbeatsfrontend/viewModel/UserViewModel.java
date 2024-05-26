@@ -23,7 +23,6 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class UserViewModel extends AndroidViewModel {
-
     private static final String TAG = "UserViewModel";
     private final APIRepository apiRepository;
     private MutableLiveData<Boolean> loginSuccess;
@@ -134,7 +133,6 @@ public class UserViewModel extends AndroidViewModel {
             }
         });
     }
-
 
     public void deleteUser(String userId) {
         apiRepository.deleteUser(userId, new Callback<Void>() {

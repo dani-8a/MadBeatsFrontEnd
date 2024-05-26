@@ -1,7 +1,5 @@
 package com.example.madbeatsfrontend.fragment;
 
-import static java.security.AccessController.getContext;
-
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -21,7 +19,6 @@ import com.example.madbeatsfrontend.viewModel.EventsSpotsViewModel;
 import java.util.Calendar;
 
 public class CalendarFragment extends DialogFragment {
-
     private EventsSpotsViewModel eventsSpotsViewModel;
     private Button buttonCancel;
     private Button buttonOk;
@@ -31,7 +28,7 @@ public class CalendarFragment extends DialogFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflar el diseño del fragmento
-        View view = inflater.inflate(R.layout.fragment_date_picker, container, false);
+        View view = inflater.inflate(R.layout.fragment_calendar, container, false);
 
         // Inicializar ViewModel
         eventsSpotsViewModel = new ViewModelProvider(requireActivity()).get(EventsSpotsViewModel.class);
@@ -63,13 +60,13 @@ public class CalendarFragment extends DialogFragment {
                     int selectedDay = selectedCalendar.get(Calendar.DAY_OF_MONTH);
                     int selectedMonth = selectedCalendar.get(Calendar.MONTH) + 1;
                     int selectedYear = selectedCalendar.get(Calendar.YEAR);
-                    // Imprimir la fecha seleccionada en el log
-                    Log.d("DatePickerFragment", "Date selected: " + selectedDay + "/" + (selectedMonth) + "/" + selectedYear);
+                    Log.d("DatePickerFragment", "Date selected: " + selectedDay + "/" + selectedMonth + "/" + selectedYear);
 
-                    // Llamar al método del ViewModel para cargar los spots por fecha
-                    eventsSpotsViewModel.loadSpotsByEventDate(selectedDay, selectedMonth, selectedYear);
-
-                    // Cerrar el diálogo
+                    //eventsSpotsViewModel.loadSpotsByEventDate(selectedDay, selectedMonth, selectedYear);
+                    if (getTargetFragment() instanceof SearchFragment) {
+                        SearchFragment searchFragment = (SearchFragment) getTargetFragment();
+                        searchFragment.updateMapWithFilteredSpotsByDate(selectedDay, selectedMonth, selectedYear);
+                    }
                     dismiss();
                 } else {
                     // Mostrar un mensaje de error si no se seleccionó ninguna fecha

@@ -54,15 +54,21 @@ public class EventListBySpotAdapter extends RecyclerView.Adapter<EventListBySpot
 
     static class EventViewHolder extends RecyclerView.ViewHolder {
         private TextView eventNameTextView;
+        private TextView eventDateTextView;
+        private TextView musicCategoryTextView;
 
         EventViewHolder(@NonNull View itemView) {
             super(itemView);
-            eventNameTextView = itemView.findViewById(R.id.txtEventListRV);
+            eventNameTextView = itemView.findViewById(R.id.txtEventName);
+            eventDateTextView = itemView.findViewById(R.id.txtEventDate);
+            musicCategoryTextView = itemView.findViewById(R.id.txtMusicCategory);
 
         }
 
         void bind(Event event, OnItemClickListener listener) {
             eventNameTextView.setText(event.getNameEvent());
+            eventDateTextView.setText(event.getDate());
+            musicCategoryTextView.setText(event.getMusicCategory());
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

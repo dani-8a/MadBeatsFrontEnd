@@ -51,15 +51,22 @@ public class FavouriteEventsAdapter extends RecyclerView.Adapter<FavouriteEvents
     }
 
     static class EventViewHolder extends RecyclerView.ViewHolder {
-        private final TextView eventNameTextView;
+        private TextView eventNameTextView;
+        private TextView eventDateTextView;
+        private TextView musicCategoryTextView;
+
 
         public EventViewHolder(@NonNull View itemView) {
             super(itemView);
-            eventNameTextView = itemView.findViewById(R.id.txtEventNameFavouriteRV);
+            eventNameTextView = itemView.findViewById(R.id.txtEventName);
+            eventDateTextView = itemView.findViewById(R.id.txtEventDate);
+            musicCategoryTextView = itemView.findViewById(R.id.txtMusicCategory);
         }
 
         public void bind(final Event event, final OnItemClickListener listener) {
             eventNameTextView.setText(event.getNameEvent());
+            eventDateTextView.setText(event.getDate());
+            musicCategoryTextView.setText(event.getMusicCategory());
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
