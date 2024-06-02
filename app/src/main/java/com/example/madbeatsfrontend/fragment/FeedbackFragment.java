@@ -1,5 +1,6 @@
 package com.example.madbeatsfrontend.fragment;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,6 +10,8 @@ import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
+
+import android.view.inputmethod.InputMethodManager;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -52,6 +55,7 @@ public class FeedbackFragment extends DialogFragment {
         });
 
         buttonSend.setOnClickListener(v -> {
+            hideKeyboard(v);
             int selectedId = radioGroup.getCheckedRadioButtonId();
             RadioButton selectedRadioButton = view.findViewById(selectedId);
             String subject = selectedRadioButton.getText().toString();
@@ -61,6 +65,7 @@ public class FeedbackFragment extends DialogFragment {
                 Feedback feedback = new Feedback(null, Arrays.asList(subject), message);
                 feedbackViewModel.sendMessageFeedback(feedback);
                 dismiss();
+                Toast.makeText(getContext(), "Message Sent", Toast.LENGTH_SHORT).show();
             } else {
                 Toast.makeText(getContext(), "Please enter a message", Toast.LENGTH_SHORT).show();
             }
@@ -68,4 +73,12 @@ public class FeedbackFragment extends DialogFragment {
 
         return view;
     }
+
+    private void hideKeyboard(View view) {
+        InputMethodManager imm = (InputMethodManager) requireContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+        if (imm != null) {
+            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+        }
+    }
+
 }

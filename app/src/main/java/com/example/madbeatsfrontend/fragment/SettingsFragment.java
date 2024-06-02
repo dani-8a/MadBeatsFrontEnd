@@ -13,6 +13,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import android.view.inputmethod.InputMethodManager;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -115,6 +117,7 @@ public class SettingsFragment extends Fragment {
         });
 
         buttonLogin.setOnClickListener(v -> {
+            hideKeyboard(v);
             String email = editMail.getText().toString();
             String password = editPassword.getText().toString();
             userViewModel.loginUser(email, password);
@@ -233,4 +236,12 @@ public class SettingsFragment extends Fragment {
                 .create()
                 .show();
     }
+
+    private void hideKeyboard(View view) {
+        InputMethodManager imm = (InputMethodManager) requireContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+        if (imm != null) {
+            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+        }
+    }
+
 }

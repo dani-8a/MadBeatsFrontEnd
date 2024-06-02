@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -39,6 +40,7 @@ public class UserEventListBySpotFragment extends Fragment {
     TextView txtSpotName, txtSpotAddress, txtEmptyEvents;
     RecyclerView eventListRV;
     EventListBySpotAdapter eventListBySpotAdapter;
+    ProgressBar progressBarEvents;
 
     public UserEventListBySpotFragment() {}
 
@@ -60,6 +62,7 @@ public class UserEventListBySpotFragment extends Fragment {
         txtEmptyEvents = view.findViewById(R.id.txtEmptyEvents);
         backButton = view.findViewById(R.id.button_back);
         deleteButton = view.findViewById(R.id.button_delete);
+        progressBarEvents = view.findViewById(R.id.progressBarEvents);
 
         LinearLayoutManager eventLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
         eventListRV.setLayoutManager(eventLayoutManager);
@@ -96,6 +99,13 @@ public class UserEventListBySpotFragment extends Fragment {
         if (arguments != null) {
             String spotId = arguments.getString("spotId");
             if (spotId != null) {
+                // Mostrar el ProgressBar y ocultar los demás elementos mientras se cargan los datos
+                progressBarEvents.setVisibility(View.VISIBLE);
+                eventListRV.setVisibility(View.GONE);
+                txtEmptyEvents.setVisibility(View.GONE);
+                txtSpotName.setVisibility(View.GONE);
+                txtSpotAddress.setVisibility(View.GONE);
+
                 // Cargar información del spot y eventos asociados
                 eventsSpotsViewModel.loadSpotWithEvents(spotId);
                 observeSpotWithEventsLiveData();
@@ -139,10 +149,16 @@ public class UserEventListBySpotFragment extends Fragment {
         eventsSpotsViewModel.getSpotWithEventsLiveData().observe(getViewLifecycleOwner(), new Observer<SpotWithEventResponse>() {
             @Override
             public void onChanged(SpotWithEventResponse spotWithEventResponse) {
+                progressBarEvents.setVisibility(View.GONE); // Ocultar ProgressBar cuando los datos se hayan cargado
+
                 if (spotWithEventResponse != null) {
                     // Mostrar la información del spot
                     txtSpotName.setText(spotWithEventResponse.getNameSpot());
                     txtSpotAddress.setText(spotWithEventResponse.getAddressSpot());
+
+                    // Hacer visibles los TextView
+                    txtSpotName.setVisibility(View.VISIBLE);
+                    txtSpotAddress.setVisibility(View.VISIBLE);
 
                     // Actualizar la lista de eventos asociados al spot
                     List<Event> events = spotWithEventResponse.getEvents();

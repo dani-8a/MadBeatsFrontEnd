@@ -17,9 +17,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.widget.ToggleButton;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -40,6 +40,7 @@ public class EventListBySpotFragment extends Fragment {
     private FavouritesViewModel favouritesViewModel;
     Button backButton, addButton;
     TextView txtSpotName, txtSpotAddress, txtEmptyEvents;
+    ProgressBar progressBarEvents;
     RecyclerView eventListRV;
     EventListBySpotAdapter eventListBySpotAdapter;
 
@@ -61,6 +62,7 @@ public class EventListBySpotFragment extends Fragment {
         txtSpotName = view.findViewById(R.id.txtSpotName);
         txtSpotAddress = view.findViewById(R.id.txtSpotAddress);
         txtEmptyEvents = view.findViewById(R.id.txtEmptyEvents);
+        progressBarEvents = view.findViewById(R.id.progressBarEvents);
         backButton = view.findViewById(R.id.button_back);
         addButton = view.findViewById(R.id.button_add);
 
@@ -100,6 +102,7 @@ public class EventListBySpotFragment extends Fragment {
             String spotId = arguments.getString("spotId");
             if (spotId != null) {
                 // Cargar información del spot y eventos asociados
+                progressBarEvents.setVisibility(View.VISIBLE);
                 eventsSpotsViewModel.loadSpotWithEvents(spotId);
                 observeSpotWithEventsLiveData();
             } else {
@@ -123,8 +126,7 @@ public class EventListBySpotFragment extends Fragment {
                         String spotId = arguments.getString("spotId");
                         if (spotId != null) {
                             // Llamar al método para agregar el evento a favoritos
-                            favouritesViewModel.addSpotToFavourites
-                                    (userId, spotId);
+                            favouritesViewModel.addSpotToFavourites(userId, spotId);
                             Toast.makeText(getContext(), "Added to Favourites", Toast.LENGTH_SHORT).show();
                         } else {
                             Log.e("EventInfoFragment", "Spot ID is null");
@@ -143,6 +145,7 @@ public class EventListBySpotFragment extends Fragment {
         eventsSpotsViewModel.getSpotWithEventsLiveData().observe(getViewLifecycleOwner(), new Observer<SpotWithEventResponse>() {
             @Override
             public void onChanged(SpotWithEventResponse spotWithEventResponse) {
+                progressBarEvents.setVisibility(View.GONE);
                 if (spotWithEventResponse != null) {
                     // Mostrar la información del spot
                     txtSpotName.setText(spotWithEventResponse.getNameSpot());
@@ -180,7 +183,7 @@ public class EventListBySpotFragment extends Fragment {
     }
 
     private void showLoginAlertDialog() {
-        new AlertDialog.Builder(requireContext(),  R.style.CustomAlertDialog)
+        new AlertDialog.Builder(requireContext(), R.style.CustomAlertDialog)
                 .setTitle("Login Required")
                 .setMessage("Please, log in to like events & spots")
                 .setPositiveButton("OK", new DialogInterface.OnClickListener() {

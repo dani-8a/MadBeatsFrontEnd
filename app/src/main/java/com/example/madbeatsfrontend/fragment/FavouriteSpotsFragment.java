@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.example.madbeatsfrontend.R;
@@ -35,6 +36,7 @@ public class FavouriteSpotsFragment extends Fragment {
     private RecyclerView recyclerView;
     private FavouriteSpotsAdapter favouriteSpotsAdapter;
     private TextView txtEmptyFavSpots;
+    private ProgressBar progressBarFavSpots;
 
     public FavouriteSpotsFragment() {
     }
@@ -65,6 +67,7 @@ public class FavouriteSpotsFragment extends Fragment {
         if (userId != null) {
             recyclerView = view.findViewById(R.id.spotFavouritesRV);
             txtEmptyFavSpots = view.findViewById(R.id.txtEmptyFavSpots);
+            progressBarFavSpots = view.findViewById(R.id.progressBarFavSpots);
 
             recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
             favouriteSpotsAdapter = new FavouriteSpotsAdapter(new FavouriteSpotsAdapter.OnItemClickListener() {
@@ -90,6 +93,7 @@ public class FavouriteSpotsFragment extends Fragment {
             favouritesViewModel.getFavouriteSpots().observe(getViewLifecycleOwner(), new Observer<List<Spot>>() {
                 @Override
                 public void onChanged(List<Spot> spots) {
+                    progressBarFavSpots.setVisibility(View.GONE);
                     if (spots != null && !spots.isEmpty()) {
                         favouriteSpotsAdapter.setSpots(spots);
                         recyclerView.setVisibility(View.VISIBLE);
@@ -101,6 +105,7 @@ public class FavouriteSpotsFragment extends Fragment {
                 }
             });
 
+            progressBarFavSpots.setVisibility(View.VISIBLE);
             favouritesViewModel.loadUserFavouriteSpots(userId);
         }
     }

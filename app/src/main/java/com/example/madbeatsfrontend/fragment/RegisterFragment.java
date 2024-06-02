@@ -1,5 +1,6 @@
 package com.example.madbeatsfrontend.fragment;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -9,6 +10,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Toast;
+
+import android.view.inputmethod.InputMethodManager;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -43,6 +46,7 @@ public class RegisterFragment extends DialogFragment {
         ImageButton buttonClose = view.findViewById(R.id.buttonClose);
 
         buttonRegister.setOnClickListener(v -> {
+            hideKeyboard(v);
             String email = editTextEmail.getText().toString();
             String password = editTextPassword.getText().toString();
 
@@ -101,4 +105,12 @@ public class RegisterFragment extends DialogFragment {
         }
         return true;
     }
+
+    private void hideKeyboard(View view) {
+        InputMethodManager imm = (InputMethodManager) requireContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+        if (imm != null) {
+            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+        }
+    }
+
 }

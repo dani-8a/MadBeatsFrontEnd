@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -32,6 +33,7 @@ public class FavouriteEventsFragment extends Fragment {
     private RecyclerView recyclerView;
     private FavouriteEventsAdapter favouriteEventsAdapter;
     private TextView txtEmptyFavEvents;
+    private ProgressBar progressBarFavEvents;
 
     public FavouriteEventsFragment() {
     }
@@ -48,7 +50,6 @@ public class FavouriteEventsFragment extends Fragment {
         SharedPreferences sharedPreferences = requireActivity().getSharedPreferences(SHARED_PREFS_NAME, Context.MODE_PRIVATE);
         boolean isLoggedIn = sharedPreferences.getBoolean("isLoggedIn", false);
 
-        // Carga el layout correspondiente
         int layoutId = isLoggedIn ? R.layout.fragment_login_events : R.layout.fragment_logout_events;
         return inflater.inflate(layoutId, container, false);
     }
@@ -63,6 +64,7 @@ public class FavouriteEventsFragment extends Fragment {
         if (userId != null) {
             recyclerView = view.findViewById(R.id.eventFavouritesRV);
             txtEmptyFavEvents = view.findViewById(R.id.txtEmptyFavEvents);
+            progressBarFavEvents = view.findViewById(R.id.progressBarFavEvents);
 
             recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
             favouriteEventsAdapter = new FavouriteEventsAdapter(new FavouriteEventsAdapter.OnItemClickListener() {
@@ -88,6 +90,7 @@ public class FavouriteEventsFragment extends Fragment {
             favouritesViewModel.getFavouriteEvents().observe(getViewLifecycleOwner(), new Observer<List<Event>>() {
                 @Override
                 public void onChanged(List<Event> events) {
+                    progressBarFavEvents.setVisibility(View.GONE);
                     if (events != null && !events.isEmpty()) {
                         favouriteEventsAdapter.setEvents(events);
                         recyclerView.setVisibility(View.VISIBLE);
@@ -99,6 +102,7 @@ public class FavouriteEventsFragment extends Fragment {
                 }
             });
 
+            progressBarFavEvents.setVisibility(View.VISIBLE);
             favouritesViewModel.loadUserFavouriteEvents(userId);
         }
     }

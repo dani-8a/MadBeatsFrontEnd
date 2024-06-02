@@ -110,18 +110,18 @@ public class EventInfoFragment extends Fragment implements OnMapReadyCallback {
                 // Actualizar la interfaz de usuario con la información del evento
                 if (event != null) {
                     // Actualizar los TextView con la información del evento
-                    txtNameEvent.setText("Event: " + event.getNameEvent());
-                    txtNameSpot.setText("Spot: " + event.getSpot().getNameSpot());
-                    txtAddressSpot.setText("Address: " + event.getSpot().getAddressSpot());
-                    txtArtists.setText("Artists: " + event.getArtists());
-                    txtDate.setText("Date: " + event.getDate());
-                    txtSchedule.setText("Schedule: " + event.getSchedule());
+                    txtNameEvent.setText("Event: " + (event.getNameEvent() != null ? event.getNameEvent() : "N/A"));
+                    txtNameSpot.setText("Spot: " + (event.getSpot().getNameSpot() != null ? event.getSpot().getNameSpot() : "N/A"));
+                    txtAddressSpot.setText("Address: " + (event.getSpot().getAddressSpot() != null ? event.getSpot().getAddressSpot() : "N/A"));
+                    txtArtists.setText("Artists: " + (event.getArtists() != null ? event.getArtists() : "N/A"));
+                    txtDate.setText("Date: " + (event.getDate() != null ? event.getDate() : "N/A"));
+                    txtSchedule.setText("Schedule: " + (event.getSchedule() != null ? event.getSchedule() : "N/A"));
                     txtPrice.setText("Price: " + event.getPrice() + "€");
                     txtAge.setText("Minimum age: " + event.getMinimumAge());
-                    txtMusicCategory.setText("Music category: " + event.getMusicCategory());
-                    txtMusicGenre.setText("Music genres: " + event.getMusicGenres());
-                    txtURL.setText("URL: " + event.getUrlEvent());
-                    txtDressCode.setText("Dress code: " + event.getDressCode());
+                    txtMusicCategory.setText("Music category: " + (event.getMusicCategory() != null ? event.getMusicCategory() : "N/A"));
+                    txtMusicGenre.setText("Music genres: " + (event.getMusicGenres() != null ? event.getMusicGenres() : "N/A"));
+                    txtURL.setText("URL: " + (event.getUrlEvent() != null ? event.getUrlEvent() : "N/A"));
+                    txtDressCode.setText("Dress code: " + (event.getDressCode() != null ? event.getDressCode() : "N/A"));
 
                     // Geocodificar la dirección del spot y actualizar el marcador en el mapa
                     List<String> addresses = Collections.singletonList(event.getSpot().getAddressSpot());

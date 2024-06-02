@@ -28,12 +28,16 @@ import com.example.madbeatsfrontend.viewModel.EventsSpotsViewModel;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.view.View;
+import android.widget.ProgressBar;
+
 public class EventsSpotsFragment extends Fragment {
     RecyclerView spotsRV, eventsRV;
     private EventsSpotsViewModel eventsSpotsViewModel;
     EventAdapter eventAdapter;
     SpotAdapter spotAdapter;
     Button buttonUpdate, buttonAddEvent;
+    ProgressBar progressBarEvents, progressBarSpots;
 
     public EventsSpotsFragment() {
 
@@ -42,7 +46,6 @@ public class EventsSpotsFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         eventsSpotsViewModel = new ViewModelProvider(requireActivity()).get(EventsSpotsViewModel.class);
     }
 
@@ -55,11 +58,13 @@ public class EventsSpotsFragment extends Fragment {
         spotsRV = view.findViewById(R.id.spotsRV);
         buttonUpdate = view.findViewById(R.id.buttonUpdate);
         buttonAddEvent = view.findViewById(R.id.buttonAddEvent);
+        progressBarEvents = view.findViewById(R.id.progressBarEvents);
+        progressBarSpots = view.findViewById(R.id.progressBarSpots);
+
         buttonUpdate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                eventsSpotsViewModel.loadSpots();
-                eventsSpotsViewModel.loadEvents();
+                loadSpotsAndEvents();
                 Toast.makeText(getContext(), "Spots & Events Updated", Toast.LENGTH_SHORT).show();
             }
         });
@@ -82,45 +87,14 @@ public class EventsSpotsFragment extends Fragment {
         eventAdapter = new EventAdapter(new ArrayList<>(), new EventAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(Event event) {
-                // Aquí abres el EventInfoFragment y pasas el evento seleccionado como argumento
-                FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
-                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                EventInfoFragment eventInfoFragment = new EventInfoFragment();
-
-                // Puedes pasar el evento como argumento al fragmento
-                Bundle bundle = new Bundle();
-                bundle.putString("eventId", event.getIdEvent());
-                eventInfoFragment.setArguments(bundle);
-
-                fragmentTransaction.replace(R.id.frame_container, eventInfoFragment);
-                fragmentTransaction.addToBackStack(null);
-                fragmentTransaction.commit();
+                openEventInfoFragment(event);
             }
         });
 
-        // Configurar adaptador de spots con la lista de eventos
         spotAdapter = new SpotAdapter(new ArrayList<>(), new SpotAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(int position) {
-                // Obtener el spot seleccionado
-                Spot spot = spotAdapter.getSpot(position);
-
-                // Obtener el ID del spot seleccionado
-                String spotId = spot.getIdSpot();
-
-                // Abrir el fragmento EventListBySpot y pasar el spotId como argumento
-                FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
-                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                EventListBySpotFragment eventListBySpot = new EventListBySpotFragment();
-
-                // Puedes pasar el ID del spot como argumento al fragmento
-                Bundle bundle = new Bundle();
-                bundle.putString("spotId", spotId);
-                eventListBySpot.setArguments(bundle);
-
-                fragmentTransaction.replace(R.id.frame_container, eventListBySpot);
-                fragmentTransaction.addToBackStack(null);
-                fragmentTransaction.commit();
+                openEventListBySpotFragment(position);
             }
         });
 
@@ -131,22 +105,31 @@ public class EventsSpotsFragment extends Fragment {
         eventsSpotsViewModel.getEventsLiveData().observe(getViewLifecycleOwner(), new Observer<List<Event>>() {
             @Override
             public void onChanged(List<Event> events) {
-                // Actualizar la UI con la lista de eventos
                 eventAdapter.updateEventList(events);
-                Log.d("EventsSpotsFragment", "Eventos recibidos desde ViewModel: " + events.size());
+                progressBarEvents.setVisibility(View.GONE);
+                eventsRV.setVisibility(View.VISIBLE);
             }
         });
 
         eventsSpotsViewModel.getSpotsLiveData().observe(getViewLifecycleOwner(), new Observer<List<Spot>>() {
             @Override
             public void onChanged(List<Spot> spots) {
-                // Actualizar la UI con la lista de spots
                 spotAdapter.updateSpotList(spots);
-                Log.d("EventsSpotsFragment", "Spots recibidos desde ViewModel: " + spots.size());
+                progressBarSpots.setVisibility(View.GONE);
+                spotsRV.setVisibility(View.VISIBLE);
             }
         });
 
         return view;
+    }
+
+    private void loadSpotsAndEvents() {
+        progressBarEvents.setVisibility(View.VISIBLE);
+        progressBarSpots.setVisibility(View.VISIBLE);
+        eventsRV.setVisibility(View.GONE);
+        spotsRV.setVisibility(View.GONE);
+        eventsSpotsViewModel.loadSpots();
+        eventsSpotsViewModel.loadEvents();
     }
 
     private void showDialog() {
@@ -169,7 +152,37 @@ public class EventsSpotsFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        eventsSpotsViewModel.loadSpots();
-        eventsSpotsViewModel.loadEvents();
+        loadSpotsAndEvents();
+    }
+
+    private void openEventInfoFragment(Event event) {
+        FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        EventInfoFragment eventInfoFragment = new EventInfoFragment();
+
+        Bundle bundle = new Bundle();
+        bundle.putString("eventId", event.getIdEvent());
+        eventInfoFragment.setArguments(bundle);
+
+        fragmentTransaction.replace(R.id.frame_container, eventInfoFragment);
+        fragmentTransaction.addToBackStack(null);
+        fragmentTransaction.commit();
+    }
+
+    private void openEventListBySpotFragment(int position) {
+        Spot spot = spotAdapter.getSpot(position);
+        String spotId = spot.getIdSpot();
+
+        FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        EventListBySpotFragment eventListBySpot = new EventListBySpotFragment();
+
+        Bundle bundle = new Bundle();
+        bundle.putString("spotId", spotId);
+        eventListBySpot.setArguments(bundle);
+
+        fragmentTransaction.replace(R.id.frame_container, eventListBySpot);
+        fragmentTransaction.addToBackStack(null);
+        fragmentTransaction.commit();
     }
 }
