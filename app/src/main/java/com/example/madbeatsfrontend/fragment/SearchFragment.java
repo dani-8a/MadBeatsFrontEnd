@@ -4,13 +4,14 @@ import android.os.Bundle;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Toast;
-
 import com.example.madbeatsfrontend.R;
 import com.example.madbeatsfrontend.adapter.CustomInfoWindowAdapter;
 import com.example.madbeatsfrontend.client.GeocodingService;
@@ -24,7 +25,6 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -40,13 +40,11 @@ public class SearchFragment extends Fragment implements OnMapReadyCallback, Goog
     private int selectedMonth = 0;
     private int selectedYear = 0;
 
-    public SearchFragment() {
-    }
-
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         eventsSpotsViewModel = new ViewModelProvider(requireActivity()).get(EventsSpotsViewModel.class);
+        observeViewModel();
     }
 
     @Override
@@ -65,22 +63,21 @@ public class SearchFragment extends Fragment implements OnMapReadyCallback, Goog
         buttonMusicCat.setOnClickListener(v -> openMusicCategoriesFragment());
 
         buttonResetFilters.setOnClickListener(v -> {
-            if (map != null) {
-                map.clear();
-            }
-            selectedMusicCategory = "";
-            selectedDay = 0;
-            selectedMonth = 0;
-            selectedYear = 0;
-            musicCategoryFilterApplied = false;
-            eventsSpotsViewModel.loadSpots();
+            resetFilters();
             Toast.makeText(getContext(), "Filters Removed", Toast.LENGTH_SHORT).show();
         });
 
-        eventsSpotsViewModel.getSpotsLiveData().observe(getViewLifecycleOwner(), this::addMarkersToMap);
-        eventsSpotsViewModel.getSpotsByEventMusicCategory().observe(getViewLifecycleOwner(), this::onSpotsFiltered);
-        eventsSpotsViewModel.getSpotsByEventDateLiveData().observe(getViewLifecycleOwner(), this::onSpotsFiltered);
         ((SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map)).getMapAsync(this);
+    }
+
+    private void observeViewModel() {
+        eventsSpotsViewModel.getSpotsLiveData().observe(this, spots -> {
+            Log.d("SearchFragment", "Spots loaded: " + spots.size());
+            addMarkersToMap(spots);
+        });
+
+        eventsSpotsViewModel.getSpotsByEventMusicCategory().observe(this, this::onSpotsFiltered);
+        eventsSpotsViewModel.getSpotsByEventDateLiveData().observe(this, this::onSpotsFiltered);
     }
 
     @Override
@@ -91,68 +88,66 @@ public class SearchFragment extends Fragment implements OnMapReadyCallback, Goog
         map.moveCamera(cameraUpdate);
         map.setOnMapClickListener(this);
 
+        loadInitialSpots();
+    }
+
+    private void loadInitialSpots() {
         if (musicCategoryFilterApplied) {
+            Log.d("SearchFragment", "Loading spots by music category: " + selectedMusicCategory);
             eventsSpotsViewModel.loadSpotsByEventMusicCategory(selectedMusicCategory);
         } else if (selectedDay != 0 && selectedMonth != 0 && selectedYear != 0) {
+            Log.d("SearchFragment", "Loading spots by date: " + selectedDay + "/" + selectedMonth + "/" + selectedYear);
             eventsSpotsViewModel.loadSpotsByEventDate(selectedDay, selectedMonth, selectedYear);
         } else {
-            eventsSpotsViewModel.getSpotsLiveData().observe(getViewLifecycleOwner(), this::addMarkersToMap);
-        }
-    }
-
-    @Override
-    public void onMapClick(LatLng latLng) {
-    }
-
-    @Override
-    public void onMapLongClick(LatLng latLng) {
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        // Aquí verificamos si se aplicó un filtro y cargamos los spots correspondientes
-        if (musicCategoryFilterApplied) {
-            eventsSpotsViewModel.loadSpotsByEventMusicCategory(selectedMusicCategory);
-        } else if (selectedDay != 0 && selectedMonth != 0 && selectedYear != 0) {
-            eventsSpotsViewModel.loadSpotsByEventDate(selectedDay, selectedMonth, selectedYear);
-        } else {
+            Log.d("SearchFragment", "Loading all spots");
             eventsSpotsViewModel.loadSpots();
         }
     }
 
+    @Override
+    public void onMapClick(LatLng latLng) {}
+
+    @Override
+    public void onMapLongClick(LatLng latLng) {}
+
     private void addMarkersToMap(List<Spot> spots) {
-        if (map != null && spots != null) {
+        if (map != null) {
             map.clear();
-            List<String> addresses = new ArrayList<>();
+            if (spots != null) {
+                List<String> addresses = new ArrayList<>();
+                for (Spot spot : spots) {
+                    addresses.add(spot.getAddressSpot());
+                }
 
-            for (Spot spot : spots) {
-                addresses.add(spot.getAddressSpot());
-            }
-            geocodingService.geocodeAddressesToLatLng(addresses, new GeocodingService.GeocodeCallback() {
-                @Override
-                public void onGeocodeSuccess(Map<String, LatLng> coordinatesMap) {
-                    for (Spot spot : spots) {
-                        LatLng coordinates = coordinatesMap.get(spot.getAddressSpot());
-                        if (coordinates != null) {
-                            map.addMarker(new MarkerOptions()
-                                    .position(coordinates)
-                                    .title(spot.getNameSpot())
-                                    .snippet(spot.getIdSpot()));
+                geocodingService.geocodeAddressesToLatLng(addresses, new GeocodingService.GeocodeCallback() {
+                    @Override
+                    public void onGeocodeSuccess(Map<String, LatLng> coordinatesMap) {
+                        Log.d("SearchFragment", "Geocoding successful: " + coordinatesMap.size() + " results");
+                        for (Spot spot : spots) {
+                            LatLng coordinates = coordinatesMap.get(spot.getAddressSpot());
+                            if (coordinates != null) {
+                                map.addMarker(new MarkerOptions()
+                                        .position(coordinates)
+                                        .title(spot.getNameSpot())
+                                        .snippet(spot.getIdSpot()));
+                            }
                         }
+                        setupMapInfoWindow();
                     }
 
-                    if (getContext() != null) {
-                        map.setInfoWindowAdapter(new CustomInfoWindowAdapter(getContext()));
-                        map.setOnInfoWindowClickListener(marker -> openEventListBySpotFragment(marker.getSnippet()));
+                    @Override
+                    public void onGeocodeFailure() {
+                        Log.e("SearchFragment", "Geocoding failed");
                     }
-                }
+                });
+            }
+        }
+    }
 
-                @Override
-                public void onGeocodeFailure() {
-                    // Manejar error de geocodificación
-                }
-            });
+    private void setupMapInfoWindow() {
+        if (getContext() != null) {
+            map.setInfoWindowAdapter(new CustomInfoWindowAdapter(getContext()));
+            map.setOnInfoWindowClickListener(marker -> openEventListBySpotFragment(marker.getSnippet()));
         }
     }
 
@@ -164,25 +159,38 @@ public class SearchFragment extends Fragment implements OnMapReadyCallback, Goog
     public void updateMapWithFilteredSpotsByMusicCategory(String selectedCategory) {
         musicCategoryFilterApplied = true;
         selectedMusicCategory = selectedCategory;
+        clearMap();
         eventsSpotsViewModel.loadSpotsByEventMusicCategory(selectedCategory);
     }
 
     public void updateMapWithFilteredSpotsByDate(int selectedDay, int selectedMonth, int selectedYear) {
-        // Si la fecha seleccionada es la misma, no hacer nada
         if (this.selectedDay == selectedDay && this.selectedMonth == selectedMonth && this.selectedYear == selectedYear) {
             return;
         }
-
         musicCategoryFilterApplied = false;
         selectedMusicCategory = "";
         this.selectedDay = selectedDay;
         this.selectedMonth = selectedMonth;
         this.selectedYear = selectedYear;
+        clearMap();
+        eventsSpotsViewModel.loadSpotsByEventDate(selectedDay, selectedMonth, selectedYear);
+    }
 
+    private void clearMap() {
         if (map != null) {
             map.clear();
         }
-        eventsSpotsViewModel.loadSpotsByEventDate(selectedDay, selectedMonth, selectedYear);
+    }
+
+    private void resetFilters() {
+        clearMap();
+        selectedMusicCategory = "";
+        selectedDay = 0;
+        selectedMonth = 0;
+        selectedYear = 0;
+        musicCategoryFilterApplied = false;
+        geocodingService.clearCache();
+        eventsSpotsViewModel.loadSpots();
     }
 
     private void openCalendarFragment() {
@@ -202,7 +210,6 @@ public class SearchFragment extends Fragment implements OnMapReadyCallback, Goog
         Bundle args = new Bundle();
         args.putString("spotId", spotId);
         eventListBySpotFragment.setArguments(args);
-
         FragmentTransaction transaction = getParentFragmentManager().beginTransaction();
         transaction.replace(R.id.frame_container, eventListBySpotFragment);
         transaction.addToBackStack(null);

@@ -14,6 +14,7 @@ import androidx.fragment.app.DialogFragment;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.madbeatsfrontend.R;
+import com.example.madbeatsfrontend.fragment.SearchFragment;
 import com.example.madbeatsfrontend.viewModel.EventsSpotsViewModel;
 
 import java.util.Calendar;
@@ -58,11 +59,11 @@ public class CalendarFragment extends DialogFragment {
 
                     // Obtener el día, mes y año seleccionados
                     int selectedDay = selectedCalendar.get(Calendar.DAY_OF_MONTH);
-                    int selectedMonth = selectedCalendar.get(Calendar.MONTH) + 1;
+                    int selectedMonth = selectedCalendar.get(Calendar.MONTH) + 1; // Meses son 0 indexados
                     int selectedYear = selectedCalendar.get(Calendar.YEAR);
                     Log.d("DatePickerFragment", "Date selected: " + selectedDay + "/" + selectedMonth + "/" + selectedYear);
 
-                    //eventsSpotsViewModel.loadSpotsByEventDate(selectedDay, selectedMonth, selectedYear);
+                    // Llamar al método updateMapWithFilteredSpotsByDate del fragmento objetivo
                     if (getTargetFragment() instanceof SearchFragment) {
                         SearchFragment searchFragment = (SearchFragment) getTargetFragment();
                         searchFragment.updateMapWithFilteredSpotsByDate(selectedDay, selectedMonth, selectedYear);
@@ -74,6 +75,11 @@ public class CalendarFragment extends DialogFragment {
                 }
             }
         });
+
+        // Establecer la fecha de hoy como seleccionada por defecto
+        Calendar today = Calendar.getInstance();
+        selectedDate = today.getTimeInMillis();
+        calendarView.setDate(selectedDate, false, true);
 
         // Configurar listener para capturar la fecha seleccionada en el CalendarView
         calendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {

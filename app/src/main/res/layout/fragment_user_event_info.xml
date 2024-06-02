@@ -21,35 +21,34 @@
 
             <Button
                 android:id="@+id/button_back"
-                android:layout_width="80dp"
-                android:layout_height="60dp"
-                android:layout_marginStart="20dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginEnd="176dp"
+                style="@style/Button.MadBeats"
+                android:layout_width="110dp"
+                android:layout_height="50dp"
+                android:layout_marginStart="25dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginEnd="196dp"
                 android:layout_marginBottom="10dp"
-                android:backgroundTint="@color/green_light"
-                android:drawableLeft="@android:drawable/ic_menu_revert"
-                android:drawableTint="@color/blue_dark"
+                android:text="BACK"
+                android:textSize="18sp"
+                android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/button_delete"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <Button
                 android:id="@+id/button_delete"
                 style="@style/Button.MadBeats"
-                android:layout_width="120dp"
+                android:layout_width="110dp"
                 android:layout_height="50dp"
                 android:layout_marginStart="9dp"
-                android:layout_marginTop="13dp"
-                android:layout_marginEnd="15dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginEnd="25dp"
                 android:layout_marginBottom="27dp"
                 android:text="DELETE"
                 android:textSize="18dp"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/button_back"
                 app:layout_constraintTop_toTopOf="parent" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
@@ -64,10 +63,11 @@
         <TextView
             android:id="@+id/txt_info"
             android:layout_width="match_parent"
-            android:layout_height="30dp"
+            android:layout_height="50dp"
             android:background="@color/blue_dark"
             android:text="EVENT INFO"
             android:textAlignment="center"
+            android:gravity="center"
             android:textColor="@color/green_bright"
             android:textSize="20dp"
             android:textStyle="bold" />

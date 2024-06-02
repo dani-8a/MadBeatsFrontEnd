@@ -6,7 +6,7 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class APIConnection {
-    private static final String BASE_URL = "http://192.168.1.116:8080";
+    private static final String BASE_URL = "https://madbeats-backend-93a77b2b6978.herokuapp.com";
     private static Retrofit retrofit;
 
     public static Retrofit getRetrofitInstance() {

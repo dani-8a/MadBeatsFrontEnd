@@ -24,10 +24,10 @@
                 style="@style/Button.MadBeats"
                 android:layout_width="120dp"
                 android:layout_height="40dp"
-                android:layout_marginTop="4dp"
-                android:layout_marginBottom="4dp"
-                android:layout_marginLeft="4dp"
-                android:layout_marginRight="2dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="5dp"
+                android:layout_marginBottom="5dp"
                 android:layout_weight="1"
                 android:text="Date" />
 
@@ -36,10 +36,10 @@
                 style="@style/Button.MadBeats"
                 android:layout_width="120dp"
                 android:layout_height="40dp"
-                android:layout_marginTop="4dp"
-                android:layout_marginBottom="4dp"
-                android:layout_marginLeft="2dp"
-                android:layout_marginRight="4dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="5dp"
+                android:layout_marginStart="5dp"
+                android:layout_marginEnd="10dp"
                 android:layout_weight="1"
                 android:text="Music Category" />
         </LinearLayout>
@@ -49,11 +49,11 @@
             style="@style/Button.MadBeats"
             android:layout_width="match_parent"
             android:layout_height="40dp"
-            android:layout_marginTop="2dp"
-            android:layout_marginBottom="4dp"
-            android:layout_marginLeft="4dp"
-            android:layout_marginRight="4dp"
-            android:text="RESET FILTERS"/>
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:text="ALL SPOTS / RESET FILTERS"/>
 
         <fragment
             android:id="@+id/map"

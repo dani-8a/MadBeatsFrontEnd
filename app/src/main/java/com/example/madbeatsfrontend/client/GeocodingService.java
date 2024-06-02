@@ -46,13 +46,13 @@ public class GeocodingService {
         // Si todas las coordenadas están cacheadas, invocar el callback inmediatamente
         if (addressesToGeocode.isEmpty()) {
             if (geocodeCallback != null) {
-                geocodeCallback.onGeocodeSuccess(resultMap);
+                new Handler(Looper.getMainLooper()).post(() -> geocodeCallback.onGeocodeSuccess(resultMap));
             }
             return;
         }
 
         new Thread(() -> {
-            String apiKey = "AIzaSyCtOBcYblWexQHZEA-MZuF4Owuk5zFCxMY";
+            String apiKey = "AIzaSyCtOBcYblWexQHZEA-MZuF4Owuk5zFCxMY";  // Reinsertando la API key
 
             for (String address : addressesToGeocode) {
                 try {
@@ -110,5 +110,9 @@ public class GeocodingService {
 
     public MutableLiveData<LatLng> getGeocodeResultLiveData() {
         return geocodeResultLiveData;
+    }
+
+    public void clearCache() {
+        cachedCoordinates.clear();
     }
 }

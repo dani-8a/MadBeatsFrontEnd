@@ -130,9 +130,13 @@ public class SettingsFragment extends Fragment {
         buttonEventManager.setOnClickListener(v -> showDialogPromoters());
 
         buttonRegister.setOnClickListener(v -> {
-            RegisterFragment dialogFragment = new RegisterFragment();
-            dialogFragment.setOnRegisterClickListener(() -> dialogFragment.dismiss());
-            dialogFragment.show(getChildFragmentManager(), "RegisterDialogFragment");
+            if (isUserLoggedIn()) {
+                Toast.makeText(getContext(), "You are logged in", Toast.LENGTH_SHORT).show();
+            } else {
+                RegisterFragment dialogFragment = new RegisterFragment();
+                dialogFragment.setOnRegisterClickListener(() -> dialogFragment.dismiss());
+                dialogFragment.show(getChildFragmentManager(), "RegisterDialogFragment");
+            }
         });
 
         txtDeleteUser.setOnClickListener(v -> {

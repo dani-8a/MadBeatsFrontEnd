@@ -17,7 +17,6 @@ import com.example.madbeatsfrontend.fragment.SettingsFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class MainActivity extends AppCompatActivity {
-
     SearchFragment searchFragment = new SearchFragment();
     EventsSpotsFragment eventsSpotsFragment = new EventsSpotsFragment();
     FavouritesFragment favouritesFragment = new FavouritesFragment();

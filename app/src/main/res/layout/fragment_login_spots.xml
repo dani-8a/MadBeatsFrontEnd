@@ -4,7 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     style="@style/FragmentBackground.MadBeats"
-    tools:context=".fragment.FavouriteSpotsFragment">
+    tools:context=".fragment.FavouriteSpotsFragment"
+    android:paddingBottom="20dp">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/spotFavouritesRV"

@@ -175,9 +175,12 @@ public class UserViewModel extends AndroidViewModel {
         }
         StringBuilder stringBuilder = new StringBuilder();
         for (Object item : list) {
-            stringBuilder.append(item.toString()).append(",");
+            if (item != null) {
+                stringBuilder.append(item).append(",");
+            }
         }
         return stringBuilder.toString();
     }
+
 
 }
