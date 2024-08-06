@@ -25,7 +25,6 @@ public class CustomInfoWindowAdapter implements GoogleMap.InfoWindowAdapter {
 
     @Override
     public View getInfoContents(Marker marker) {
-        // Configurar el contenido del InfoWindow
         render(marker, mWindow);
         return mWindow;
     }

@@ -6,6 +6,7 @@ import android.util.Log;
 
 import androidx.lifecycle.MutableLiveData;
 
+import com.example.madbeatsfrontend.BuildConfig;
 import com.google.android.gms.maps.model.LatLng;
 
 import org.json.JSONException;
@@ -52,7 +53,7 @@ public class GeocodingService {
         }
 
         new Thread(() -> {
-            String apiKey = "AIzaSyCtOBcYblWexQHZEA-MZuF4Owuk5zFCxMY";  // Reinsertando la API key
+            String apiKey = BuildConfig.API_KEY;
 
             for (String address : addressesToGeocode) {
                 try {
@@ -79,7 +80,6 @@ public class GeocodingService {
                             resultMap.put(address, latLng);
                             cachedCoordinates.put(address, latLng); // Cachear las coordenadas
                         } else {
-                            // Manejar errores de la API de Geocoding
                             String errorMessage = jsonObject.getString("error_message");
                             Log.e("Geocode Error", errorMessage);
                             resultMap.put(address, null);

@@ -29,7 +29,7 @@
         android:textColor="@color/green_bright"
         android:textSize="16dp"
         android:textAlignment="center"
-        android:text="Type your email and password" />
+        android:text="Type your credentials" />
 
     <EditText
         android:id="@+id/editTextEmail"
@@ -37,7 +37,7 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
-        android:hint="Email"
+        android:hint="User or Email"
         android:textColorHint="@color/blue_light2"
         android:textColor="@color/blue_light2"
         android:inputType="textEmailAddress" />

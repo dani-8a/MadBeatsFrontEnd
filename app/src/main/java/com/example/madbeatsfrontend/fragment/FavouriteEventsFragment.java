@@ -70,12 +70,12 @@ public class FavouriteEventsFragment extends Fragment {
             favouriteEventsAdapter = new FavouriteEventsAdapter(new FavouriteEventsAdapter.OnItemClickListener() {
                 @Override
                 public void onItemClick(Event event) {
-                    // Aquí abres el EventInfoFragment y pasas el evento seleccionado como argumento
+                    // Abrir EventInfoFragment y pasar el evento seleccionado como argumento
                     FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
                     FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
                     UserEventInfoFragment userEventInfoFragment = new UserEventInfoFragment();
 
-                    // Puedes pasar el evento como argumento al fragmento
+                    // Pasar el evento como argumento al fragmento
                     Bundle bundle = new Bundle();
                     bundle.putString("eventId", event.getIdEvent());
                     userEventInfoFragment.setArguments(bundle);

@@ -62,7 +62,6 @@ public class SpotAdapter extends RecyclerView.Adapter<SpotAdapter.SpotViewHolder
 
         void bind(Spot spot) {
             spotNameTextView.setText(spot.getNameSpot());
-            // Set other spot details to corresponding views if needed
         }
 
     }

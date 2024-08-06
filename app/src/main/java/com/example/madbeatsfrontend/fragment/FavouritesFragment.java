@@ -64,7 +64,7 @@ public class FavouritesFragment extends Fragment {
 
         @Override
         public int getCount() {
-            return 2; // Solo dos tabs
+            return 2;
         }
 
         @Nullable

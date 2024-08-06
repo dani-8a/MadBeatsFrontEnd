@@ -70,12 +70,12 @@ public class UserEventListBySpotFragment extends Fragment {
         eventListBySpotAdapter = new EventListBySpotAdapter(new ArrayList<>(), new EventListBySpotAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(Event event) {
-                // Aquí abres el EventInfoFragment y pasas el evento seleccionado como argumento
+                // Abrir el EventInfoFragment y pasar el evento seleccionado como argumento
                 FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
                 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
                 EventInfoFragment eventInfoFragment = new EventInfoFragment();
 
-                // Puedes pasar el evento como argumento al fragmento
+                // Pasar el evento como argumento al fragmento
                 Bundle bundle = new Bundle();
                 bundle.putString("eventId", event.getIdEvent());
                 eventInfoFragment.setArguments(bundle);
@@ -99,14 +99,13 @@ public class UserEventListBySpotFragment extends Fragment {
         if (arguments != null) {
             String spotId = arguments.getString("spotId");
             if (spotId != null) {
-                // Mostrar el ProgressBar y ocultar los demás elementos mientras se cargan los datos
                 progressBarEvents.setVisibility(View.VISIBLE);
                 eventListRV.setVisibility(View.GONE);
                 txtEmptyEvents.setVisibility(View.GONE);
                 txtSpotName.setVisibility(View.GONE);
                 txtSpotAddress.setVisibility(View.GONE);
 
-                // Cargar información del spot y eventos asociados
+                // Cargar información del spot y eventos asociados (SpotWithEventResponse)
                 eventsSpotsViewModel.loadSpotWithEvents(spotId);
                 observeSpotWithEventsLiveData();
             } else {
@@ -121,15 +120,13 @@ public class UserEventListBySpotFragment extends Fragment {
                 // Verificar si el usuario está autenticado
                 String userId = getUserIdFromSharedPreferences();
                 if (userId == null) {
-                    // Si el usuario no está autenticado, mostrar el diálogo de inicio de sesión
                     showLoginAlertDialog();
                 } else {
-                    // Si el usuario está autenticado, llamar al método para remover el spot a favoritos
+                    // Si el usuario está autenticado, llamar al método para remover el spot de favoritos
                     Bundle arguments = getArguments();
                     if (arguments != null) {
                         String spotId = arguments.getString("spotId");
                         if (spotId != null) {
-                            // Llamar al método para agregar el evento a favoritos
                             favouritesViewModel.removeSpotFromFavourites(userId, spotId);
                             Toast.makeText(getContext(), "Removed from Favourites", Toast.LENGTH_SHORT).show();
                         } else {

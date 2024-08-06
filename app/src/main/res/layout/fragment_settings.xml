@@ -98,18 +98,16 @@
         </LinearLayout>
 
         <LinearLayout
-            android:layout_width="370dp"
-            android:layout_height="50dp"
-            android:layout_marginTop="20dp"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
-            android:layout_gravity="center_horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:orientation="horizontal">
 
             <Button
                 android:id="@+id/buttonLogin"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:layout_marginStart="20dp"
                 android:layout_marginEnd="5dp"
                 android:layout_weight="1"
                 style="@style/Button.MadBeats"
@@ -119,7 +117,9 @@
                 android:id="@+id/buttonLogOut"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
                 android:layout_marginStart="5dp"
+                android:layout_marginEnd="20dp"
                 android:layout_weight="1"
                 style="@style/Button.MadBeats"
                 android:text="Log Out" />
@@ -127,11 +127,11 @@
 
         <Button
             android:id="@+id/buttonRegister"
-            android:layout_width="370dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
             android:layout_gravity="center_horizontal"
             style="@style/Button.MadBeats"
             android:text="REGISTER" />
@@ -173,9 +173,11 @@
 
         <Button
             android:id="@+id/buttonClearFav"
-            android:layout_width="370dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
             android:layout_gravity="center_horizontal"
             style="@style/Button.MadBeats"
             android:text="CLEAR FAVOURITES" />
@@ -210,9 +212,11 @@
 
         <Button
             android:id="@+id/buttonMessage"
-            android:layout_width="370dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="15dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
             android:layout_gravity="center_horizontal"
             style="@style/Button.MadBeats"
             android:text="CONTACT US" />
@@ -230,9 +234,11 @@
 
         <Button
             android:id="@+id/buttonEventManager"
-            android:layout_width="370dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
             android:layout_marginBottom="5dp"
             android:layout_gravity="center_horizontal"
             style="@style/Button.MadBeats"

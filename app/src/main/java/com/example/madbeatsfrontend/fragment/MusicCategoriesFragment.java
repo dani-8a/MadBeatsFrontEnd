@@ -220,10 +220,8 @@ public class MusicCategoriesFragment extends DialogFragment {
         dismiss();
         // Verifica si se seleccionó una categoría
         if (selectedCategory != null && !selectedCategory.isEmpty()) {
-            // Imprime la categoría seleccionada en el log
             Log.d("MusicCategoriesFragment", "Categoría seleccionada: " + selectedCategory);
         } else {
-            // Si no se seleccionó ninguna categoría, imprime un mensaje de advertencia en el log
             Log.w("MusicCategoriesFragment", "No se seleccionó ninguna categoría");
         }
     }

@@ -78,7 +78,7 @@ public class FavouriteSpotsFragment extends Fragment {
                     FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
                     UserEventListBySpotFragment userEventListBySpotFragment = new UserEventListBySpotFragment();
 
-                    // Puedes pasar el ID del spot como argumento al fragmento
+                    // Pasar el ID del spot como argumento al fragmento
                     Bundle bundle = new Bundle();
                     bundle.putString("spotId", spot.getIdSpot());
                     userEventListBySpotFragment.setArguments(bundle);

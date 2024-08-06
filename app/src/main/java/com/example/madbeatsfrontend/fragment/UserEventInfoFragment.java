@@ -82,13 +82,11 @@ public class UserEventInfoFragment extends Fragment implements OnMapReadyCallbac
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Regresar al fragmento anterior (EventsSpotsFragment)
                 FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
-                fragmentManager.popBackStack(); // Regresa al fragmento anterior en la pila de fragmentos
+                fragmentManager.popBackStack();
             }
         });
 
-        // Obtener el ID del evento del Bundle de argumentos
         Bundle arguments = getArguments();
         if (arguments != null) {
             String eventId = arguments.getString("eventId");
@@ -153,7 +151,6 @@ public class UserEventInfoFragment extends Fragment implements OnMapReadyCallbac
                 // Verificar si el usuario está autenticado
                 String userId = getUserIdFromSharedPreferences();
                 if (userId == null) {
-                    // Si el usuario no está autenticado, mostrar el diálogo de inicio de sesión
                     showLoginAlertDialog();
                 } else {
                     // Si el usuario está autenticado, llamar al método para remover el evento a favoritos

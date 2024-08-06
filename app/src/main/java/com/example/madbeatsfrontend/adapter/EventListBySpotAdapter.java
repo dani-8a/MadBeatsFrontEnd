@@ -86,7 +86,7 @@ public class EventListBySpotAdapter extends RecyclerView.Adapter<EventListBySpot
 
     public void updateEventList(List<Event> newList) {
         if (eventList == null) {
-            eventList = new ArrayList<>(); // Inicializar eventList si es nulo
+            eventList = new ArrayList<>();
         }
         eventList.clear();
         eventList.addAll(newList);

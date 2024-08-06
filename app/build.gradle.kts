@@ -2,6 +2,8 @@ plugins {
     alias(libs.plugins.androidApplication)
 }
 
+var API_KEY = project.findProperty("API_KEY") ?: ""
+
 android {
     namespace = "com.example.madbeatsfrontend"
     compileSdk = 34
@@ -12,8 +14,13 @@ android {
         targetSdk = 34
         versionCode = 1
         versionName = "1.0"
+        buildConfigField ("String", "API_KEY", "\"${API_KEY}\"")
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    buildFeatures {
+        buildConfig = true
     }
 
     buildTypes {

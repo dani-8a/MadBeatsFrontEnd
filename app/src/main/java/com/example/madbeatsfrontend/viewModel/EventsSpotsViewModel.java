@@ -76,10 +76,9 @@ public class EventsSpotsViewModel extends ViewModel {
             public void onResponse(Call<Event> call, Response<Event> response) {
                 if (response.isSuccessful()) {
                     Event event = response.body();
-                    // Agregamos un registro para imprimir la respuesta de la API
+                    // Rgistro para imprimir la respuesta de la API
                     Log.d("API_RESPONSE", "Información del evento recibida: " + event.toString());
                     eventInfoLiveData.setValue(event);
-                    //Log.d("EventsSpotsViewModel", "Información del evento recibida: " + event);
                 } else {
                     // Manejar error de respuesta
                     Log.e("EventsSpotsViewModel", "Error en la respuesta al obtener información del evento: " + response.message());
@@ -130,14 +129,12 @@ public class EventsSpotsViewModel extends ViewModel {
     }
 
     public void loadSpotsByEventMusicCategory(String musicCategory) {
-        // Llamar al método del repositorio de la API para obtener los spots por categoría musical
         apiRepository.getSpotsByMusicCategory(musicCategory, new Callback<List<Spot>>() {
             @Override
             public void onResponse(Call<List<Spot>> call, Response<List<Spot>> response) {
                 if (response.isSuccessful()) {
                     List<Spot> spots = response.body();
                     spotsByEventMusicCategory.setValue(spots);
-                    // Imprimir los spots en el log
                     Log.d("SearchFragment", "Spots filtrados por categoría musical: " + spots);
                 } else {
                     // Si la solicitud no fue exitosa, mostrar un mensaje de error en el log
