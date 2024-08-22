@@ -2,7 +2,7 @@
 
 ###
 
-<p align="left">Due to the knowledge acquired in academic training, this project is focused on back-end functionalities. At this point I barely have any application design (UI) skills. I'll study it in the future for further changes in MadBeats design.</p>
+<p align="left">Due to the knowledge acquired in academic training, this project is focused on back-end features. At this point I barely have any application design (UI) skills. I'll study it in the future for further changes in MadBeats design.</p>
 
 ###
 
